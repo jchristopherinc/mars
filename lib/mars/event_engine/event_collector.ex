@@ -19,17 +19,17 @@ defmodule Mars.EventEngine.EventCollector do
   end
 
   def enqueue(event) do
-    Logger.debug "In Genstage enqueue"                                                                                                                                          
+    Logger.debug "In Genstage enqueue"                                                                                                                                        
     GenStage.cast(__MODULE__, {:enqueue, event})                                                                                                                         
   end  
 
   def handle_cast({:enqueue, event}, {queue, demand, queue_size}) do
-    Logger.debug "In Genstage handle cast"                                                                                              
+    Logger.debug "In Genstage handle cast"                                                                                             
     dispatch_events(:queue.in(event, queue), demand, [], queue_size + 1)                                                                                                    
   end
 
   def handle_demand(incoming_demand, {queue, demand, queue_size}) do
-    Logger.debug "In Genstage handle demand"                                                                                                  
+    Logger.debug "In Genstage handle demand"                                                                                                 
     dispatch_events(queue, incoming_demand + demand, [], queue_size)                                                                                                      
   end
 
@@ -41,15 +41,7 @@ defmodule Mars.EventEngine.EventCollector do
 
     with d when d > 0 <- demand,                                                                                                                                          
         {item, queue} = :queue.out(queue),                                                                                                                                
-        {:value, event} <- item do                                                                                                                                        
-      # case check_event(event) do                                                                                                                                          
-      #   :expired ->                                                                                                                                                       
-      #     UpaMetrics.count("gen_stage", "discarded") #Metrics App inside Umbrella                                                                                                                      
-      #     dispatch_events(queue, demand, events, queue_size-1)                                                                                                            
-      #   :valid ->                                                                                                                                                         
-      #     UpaMetrics.count("gen_stage", "processed") #Metrics App inside Umbrella                                                                                                                     
-      #     dispatch_events(queue, demand - 1, [event | events], queue_size-1)                                                                                              
-      # end   
+        {:value, event} <- item do
       Logger.debug "printing event..."
       Logger.debug event
     else                                                                                                                                                                  
