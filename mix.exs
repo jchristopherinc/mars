@@ -20,7 +20,7 @@ defmodule Mars.MixProject do
   def application do
     [
       mod: {Mars.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :timex]
     ]
   end
 
@@ -41,7 +41,9 @@ defmodule Mars.MixProject do
       {:phoenix_live_reload, "~> 1.2-rc", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:cowboy, "~> 2.5"}
+      {:cowboy, "~> 2.5"},
+      {:gen_stage, "~> 0.14"},
+      {:timex, "~> 3.1"}
     ]
   end
 
