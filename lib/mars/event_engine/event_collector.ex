@@ -70,10 +70,12 @@ defmodule Mars.EventEngine.EventCollector do
         {item, queue} = :queue.out(queue),                                                                                                                                
         {:value, event} <- item do
       Logger.debug "printing event..."
-      Logger.debug event
+      Logger.debug "event #{inspect event}"
+      dispatch_events(queue, demand - 1, [event | events], queue_size - 1) 
     else                                                                                                                                                                  
       _ -> {:noreply, Enum.reverse(events), {queue, demand, queue_size}}                                                                                                  
     end   
-    
-  end                                                                                                                                                                     
+
+  end  
+
 end
