@@ -36,7 +36,8 @@ defmodule Mars.EventEngine.EventCollector do
   # Private methods
   defp dispatch_events(queue, demand, events, queue_size) do
     Logger.debug "In dispatch events"
-    Logger.debug queue_size
+    Logger.debug "queue_size #{queue_size}"
+    Logger.debug "queue #{inspect queue}"
     Logger.debug "demand #{demand}"
 
     with d when d > 0 <- demand,                                                                                                                                          
