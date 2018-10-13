@@ -11,6 +11,15 @@ defmodule MarsWeb.EventController do
 
   action_fallback MarsWeb.FallbackController
 
+  @moduledoc """
+  EventController to expose APIs for public consumption
+  """
+
+  @doc """
+  A temporary metbod to create a random event and enqueue it to EventCollector Genstage
+
+  Returns HTTP Status code 200
+  """
   def create_event(conn, _) do
     Logger.debug "creating event"
 
