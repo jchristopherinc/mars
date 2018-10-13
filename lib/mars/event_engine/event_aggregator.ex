@@ -26,7 +26,7 @@ defmodule Mars.EventEngine.EventAggregator do
   which will automatically start requesting items.
   """
   def init(:ok) do
-    {:consumer, :ok, subscribe_to: [EventCollector]}
+    {:consumer, :ok, subscribe_to: [{EventCollector, min_demand: 1, max_demand: 100}]}
   end
 
   @doc """
