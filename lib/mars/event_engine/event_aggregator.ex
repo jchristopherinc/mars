@@ -33,6 +33,7 @@ defmodule Mars.EventEngine.EventAggregator do
   Actual processing of events happen here! 🎉
   """
   def handle_events(events, _from, state) do
+    Logger.debug "events #{inspect events}"
     for event <- events do
       Logger.debug "event in EventAggregator #{inspect event}"
     end
