@@ -24,7 +24,7 @@ defmodule Mars.EventEngine.EventCollector do
   initial state and dispatcher strategy
   """
   def init(:ok) do
-    {:producer, {:queue.new, 0, 0}, dispatcher: GenStage.BroadcastDispatcher}   
+    {:producer, {:queue.new, 0}, dispatcher: GenStage.DemandDispatcher}   
   end
 
   ## Callback
@@ -32,17 +32,18 @@ defmodule Mars.EventEngine.EventCollector do
   @doc """
   Handle the cast generated when an Event is enqueued
   """
-  def handle_cast({:enqueue, event}, {queue, demand, queue_size}) do
-    Logger.debug "In Genstage handle cast"                                                                                             
-    dispatch_events(:queue.in(event, queue), demand, [], queue_size + 1)                                                                                                    
+  def handle_cast({:enqueue, event}, {queue, pending_demand}) do
+    Logger.debug "In Genstage handle cast"   
+    queue = :queue.in(event, queue)
+    dispatch_events(queue, pending_demand, [])                                                                                                   
   end
 
   @doc """
   Handle the demand by consumers, to push event from this Genstage to downstream
   """
-  def handle_demand(incoming_demand, {queue, demand, queue_size}) do
+  def handle_demand(incoming_demand, {queue, pending_demand}) do
     Logger.debug "In Genstage handle demand"                                                                                                 
-    dispatch_events(queue, incoming_demand + demand, [], queue_size)                                                                                                      
+    dispatch_events(queue, incoming_demand + pending_demand, [])  
   end
 
   ## Public method
@@ -60,22 +61,57 @@ defmodule Mars.EventEngine.EventCollector do
   @doc """
   Gets the events from the queue for dispatching, when requested by downstream consumers
   """
-  defp dispatch_events(queue, demand, events, queue_size) do
-    Logger.debug "In dispatch events"
-    Logger.debug "queue_size #{queue_size}"
-    Logger.debug "queue #{inspect queue}"
-    Logger.debug "demand #{demand}"
+  defp dispatch_events(queue, demand, events) do
+    IO.inspect "demand #{demand}"
 
-    with d when d > 0 <- demand,                                                                                                                                          
-        {item, queue} = :queue.out(queue),                                                                                                                                
-        {:value, event} <- item do
-      Logger.debug "printing event..."
-      Logger.debug "event #{inspect event}"
-      dispatch_events(queue, demand - 1, [event | events], queue_size - 1) 
-    else                                                                                                                                                                  
-      _ -> {:noreply, Enum.reverse(events), {queue, demand, queue_size}}                                                                                                  
-    end   
+    # with d when d > 0 <- demand,                                                                                                                                          
+    #     {item, queue} = :queue.out(queue),                                                                                                                                
+    #     {:value, event} <- item do
+    #   dispatch_events(queue, demand - 1, [event | events]) 
+    # else                                                                                                                                                                  
+    #   _ -> 
+    #     Logger.debug "no more events.. sending reply"
+    #     {:noreply, Enum.reverse(events), {queue, demand}}                                                                                                  
+    # end   
 
-  end  
+    extracted_events = get_x_events(queue, demand);
+
+    if extracted_events != %{} do
+      Logger.debug "gotcha events.. sending reply #{inspect extracted_events}"
+      dispatch_events(queue, 0, [extracted_events | events]) 
+    else
+      Logger.debug "no more events.. sending reply"
+      {:noreply, Enum.reverse(events), {queue, demand}}          
+    end
+
+    # case :queue.out(queue) do
+    #   {{:value, event}, queue} ->
+    #     Logger.debug "event #{inspect event}"
+    #     dispatch_events(queue, demand - 1, [event | events])
+    #   {:empty, queue} ->
+    #     Logger.debug "no more events.. sending reply"
+    #     {:noreply, Enum.reverse(events), {queue, demand}}
+    # end
+
+  end
+
+  defp get_x_events(queue, demand) do
+    if :queue.is_empty(queue) do
+      %{}
+    else
+      extracted_events = for i <- 0..demand do
+        {item, queue} = :queue.out(queue)
+      
+        if !is_nil(item) do
+          item
+        end
+      end
+      extracted_events
+    end
+  end
+
+  defp dispatch_events(queue, 0, events) do
+    {:noreply, Enum.reverse(events), {queue, 0}}
+  end
 
 end
