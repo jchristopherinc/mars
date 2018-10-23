@@ -64,16 +64,6 @@ defmodule Mars.EventEngine.EventCollector do
   defp dispatch_events(queue, demand, events) when demand > 0 do
     IO.inspect "demand #{demand}"
 
-    # with d when d > 0 <- demand,                                                                                                                                          
-    #     {item, queue} = :queue.out(queue),                                                                                                                                
-    #     {:value, event} <- item do
-    #   dispatch_events(queue, demand - 1, [event | events]) 
-    # else                                                                                                                                                                  
-    #   _ -> 
-    #     Logger.debug "no more events.. sending reply"
-    #     {:noreply, Enum.reverse(events), {queue, demand}}                                                                                                  
-    # end   
-
     extracted_events = get_x_events(queue, demand);
 
     if extracted_events != %{} do
@@ -83,18 +73,11 @@ defmodule Mars.EventEngine.EventCollector do
       Logger.debug "no more events.. sending reply"
       {:noreply, Enum.reverse(events), {queue, demand}}          
     end
-
-    # case :queue.out(queue) do
-    #   {{:value, event}, queue} ->
-    #     Logger.debug "event #{inspect event}"
-    #     dispatch_events(queue, demand - 1, [event | events])
-    #   {:empty, queue} ->
-    #     Logger.debug "no more events.. sending reply"
-    #     {:noreply, Enum.reverse(events), {queue, demand}}
-    # end
-
   end
 
+  @doc """
+  get X events from the queue, based on the demand
+  """
   defp get_x_events(queue, demand) do
     if :queue.is_empty(queue) do
       %{}
