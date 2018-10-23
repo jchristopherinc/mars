@@ -61,7 +61,7 @@ defmodule Mars.EventEngine.EventCollector do
   @doc """
   Gets the events from the queue for dispatching, when requested by downstream consumers
   """
-  defp dispatch_events(queue, demand, events) do
+  defp dispatch_events(queue, demand, events) when demand > 0 do
     IO.inspect "demand #{demand}"
 
     # with d when d > 0 <- demand,                                                                                                                                          
