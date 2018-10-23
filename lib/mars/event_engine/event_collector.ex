@@ -3,6 +3,8 @@ defmodule Mars.EventEngine.EventCollector do
 
   require Logger
 
+  alias Mars.Structures.Queue
+
   @moduledoc """
   Events are pushed to the queue from EventController. 
   EventCollector is a queue to receive all these events from APIs for further downstream processing
@@ -24,7 +26,7 @@ defmodule Mars.EventEngine.EventCollector do
   initial state and dispatcher strategy
   """
   def init(:ok) do
-    {:producer, {:queue.new, 0}, dispatcher: GenStage.DemandDispatcher}   
+    {:producer, {Queue.new(), 0}, dispatcher: GenStage.DemandDispatcher}   
   end
 
   ## Callback
@@ -34,8 +36,8 @@ defmodule Mars.EventEngine.EventCollector do
   """
   def handle_cast({:enqueue, event}, {queue, pending_demand}) do
     Logger.debug "In Genstage handle cast"   
-    queue = :queue.in(event, queue)
-    dispatch_events(queue, pending_demand, [])                                                                                                   
+    updated_queue = Queue.insert(queue, event)
+    dispatch_events(updated_queue, pending_demand, [])                                                                                                   
   end
 
   @doc """
@@ -79,17 +81,10 @@ defmodule Mars.EventEngine.EventCollector do
   get X events from the queue, based on the demand
   """
   defp get_x_events(queue, demand) do
-    if :queue.is_empty(queue) do
+    if Queue.is_empty?(queue) do
       %{}
     else
-      extracted_events = for i <- 0..demand do
-        {item, queue} = :queue.out(queue)
-      
-        if !is_nil(item) do
-          item
-        end
-      end
-      extracted_events
+      {items, updated_queue} = Queue.take(queue, demand)
     end
   end
 
