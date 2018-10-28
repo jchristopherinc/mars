@@ -70,7 +70,7 @@ defmodule Mars.EventEngine.EventCollector do
 
     if !is_nil(extracted_events) do
       Logger.debug "gotcha events.. sending reply #{inspect extracted_events}"
-      dispatch_events(queue, 0, [extracted_events | events]) 
+      dispatch_events(updated_queue, 0, [extracted_events | events]) 
     else
       Logger.debug "no more events.. sending reply"
       {:noreply, Enum.reverse(events), {queue, demand}}     
