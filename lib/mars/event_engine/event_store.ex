@@ -2,6 +2,12 @@ defmodule Mars.EventEngine.EventStore do
   
   require Logger
 
+  @moduledoc """
+  Place to actually store Events into DB
+
+  EventCollector <- EventAggregator <- [** EventStore **] 
+  """
+
   def start_link({event, %{"event" => event}}) do
     Task.start_link(fn ->
       Logger.debug "EVENT IN EVENTSTORE #{inspect event}"

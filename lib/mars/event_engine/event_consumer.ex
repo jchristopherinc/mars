@@ -3,6 +3,14 @@ defmodule Mars.EventEngine.EventConsumer do
 
   require Logger
 
+  @moduledoc """
+  Consumer supervision strategy to create a bridge between EventAggregator and EventStore
+
+              EventConsumer
+          /                   \
+  EventAggregator           EventStore
+  """
+
   def start_link() do
     ConsumerSupervisor.start_link(__MODULE__, :ok, __MODULE__)
   end
