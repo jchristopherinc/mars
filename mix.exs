@@ -43,7 +43,8 @@ defmodule Mars.MixProject do
       {:jason, "~> 1.0"},
       {:cowboy, "~> 2.5"},
       {:gen_stage, "~> 0.14"},
-      {:timex, "~> 3.1"}
+      {:timex, "~> 3.1"},
+      {:fastglobal, "~> 1.0"}
     ]
   end
 
