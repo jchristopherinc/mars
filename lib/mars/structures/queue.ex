@@ -2,6 +2,11 @@ defmodule Mars.Structures.Queue do
 
   @moduledoc """
   Taken from https://gist.github.com/imranismail/749d932699b77d2c18605b0c96c663d3
+
+  Elixir Wrapper over Erlang's Queue implementation
+  
+  http://erlang.org/doc/man/queue.html
+  
   """
 
   alias Mars.Structures.Queue

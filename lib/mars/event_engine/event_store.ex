@@ -8,6 +8,9 @@ defmodule Mars.EventEngine.EventStore do
   EventCollector <- EventAggregator <- [** EventStore **] 
   """
 
+  @doc """
+  Genstage start link. Used by Application supervisor to start the genstage
+  """
   def start_link({event, %{"event" => event}}) do
     Task.start_link(fn ->
       Logger.debug "EVENT IN EVENTSTORE #{inspect event}"

@@ -11,10 +11,16 @@ defmodule Mars.EventEngine.EventConsumer do
   EventAggregator           EventStore
   """
 
+  @doc """
+  Genstage start link. Used by Application supervisor to start the genstage
+  """
   def start_link() do
     ConsumerSupervisor.start_link(__MODULE__, :ok, __MODULE__)
   end
 
+  @doc """
+  A call back method for Genstage. We establish a ConsimerSupervision strategy between EventAggregator and EventStore
+  """
   def init(:ok) do
     children = [
       worker(Mars.EventEngine.EventStore, [], restart: :temporary)

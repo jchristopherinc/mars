@@ -24,6 +24,8 @@ defmodule Mars.EventEngine.EventAggregator do
   @doc """
   Starts a permanent subscription to upstream Mars.EventEngine.EventCollector
   which will automatically start requesting items.
+
+  Gets events in batch_size of 10 and periodically for every 10 seconds
   """
   def init(:ok) do
     batch_size = 10
@@ -36,9 +38,8 @@ defmodule Mars.EventEngine.EventAggregator do
 
     state = %{batch_size: batch_size, interval: interval}
 
-    IO.inspect "State: #{inspect state}"
-
-    Logger.debug "AGgregator inited"
+    Logger.debug "State: #{inspect state}"
+    Logger.debug "Aggregator inited"
     
     {:consumer, state, subscribe_to: [EventCollector]}
   end
