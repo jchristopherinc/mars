@@ -30,6 +30,12 @@ Expose HTTP End points `/api/create_event` to trigger events from external syste
 
 *TODO*: Add support for Message brokers later
 
+## For testing in dev environment
+
+https://localhost:4001/api/create_event - End point to generate test random events
+https://localhost:4001/status - Service health check
+https://localhost:4001/api/q/stats - Queue statistics page
+
 ## Installation steps
 
 To start your Phoenix server:
