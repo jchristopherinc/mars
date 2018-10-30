@@ -1,5 +1,11 @@
 # Mars
 
+## Problem Statement
+
+Tracking data across different data stores and deliverability across multiple clients is hard. I wanted to have a single dashboard where I can see all the messages (tracked by a unique `message_id`) and all events emitted by each of the message in it's lifecycle. 
+
+The events are processed as mentioned in Event Engine flow 👇🏽 below. You can track the life cycle of your data based on the missing events.
+
 ## Event Engine flow
 
 This has an Event engine with 3 pipelines
