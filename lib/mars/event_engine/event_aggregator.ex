@@ -63,6 +63,14 @@ defmodule Mars.EventEngine.EventAggregator do
   Actual processing of events happen here! 🎉
   """
   def handle_events(events, _from, state) do
+
+    count = Enum.count(events)
+    Logger.debug "events count #{count}"
+
+    events
+    |> Enum.group_by(fn entry -> entry.message_id end)
+    |> IO.inspect
+
     for event <- events do
       Logger.debug "event in EventAggregator #{inspect event}"
     end

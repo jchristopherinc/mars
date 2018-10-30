@@ -30,7 +30,7 @@ defmodule Mars.Structures.Queue do
   end
 
   def take(queue, n) do
-    {q1, _} = split(queue, n)
+    {q1, q2} = split(queue, n)
   end
 
   def pop(queue) do

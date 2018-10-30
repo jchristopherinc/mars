@@ -36,7 +36,7 @@ defmodule Mars.EventEngine.EventCollector do
   """
   def handle_cast({:enqueue, event}, {queue, pending_demand}) do
     Logger.debug "In Genstage handle cast"   
-    updated_queue = Queue.insert_last(queue, event)
+    updated_queue = Queue.insert(queue, event)
     
     q_length = Queue.length(updated_queue)             
     FastGlobal.put(:event_collector_q_length, q_length)
@@ -79,21 +79,23 @@ defmodule Mars.EventEngine.EventCollector do
   defp dispatch_events(queue, demand, events) when demand > 0 do
     IO.inspect "demand #{demand}"
 
-   {extracted_events, updated_queue} = Queue.take(queue, demand)
+    {extracted_events_queue, updated_queue} = Queue.take(queue, demand)
+
+    extracted_events = Queue.to_list(extracted_events_queue)
 
     if !is_nil(extracted_events) do
       Logger.debug "gotcha events.. sending reply #{inspect extracted_events}"
       
       FastGlobal.put(:event_collector_q_length, Queue.length(updated_queue))
-      dispatch_events(updated_queue, 0, [extracted_events | events]) 
+      dispatch_events(updated_queue, 0, extracted_events) 
     else
       Logger.debug "no more events.. sending reply"
-      {:noreply, Enum.reverse(events), {queue, demand}}     
+      {:noreply, events, {queue, demand}}     
     end
   end
 
   defp dispatch_events(queue, 0, events) do
-    {:noreply, Enum.reverse(events), {queue, 0}}
+    {:noreply, events, {queue, 0}}
   end
 
   def queue_length() do

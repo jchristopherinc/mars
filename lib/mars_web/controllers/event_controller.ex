@@ -40,12 +40,24 @@ defmodule MarsWeb.EventController do
 
       random_event = Map.get(event_map, random_num)
       
-      event = %Event {
+      event = %{
         app_id: i,
         message_id: i * 100,
         event: random_event,
         created_at: Timex.now
       }
+
+      if i == 1 do
+        random_num_2 = :rand.uniform(event_map_len)
+        random_event_2 = Map.get(event_map, random_num_2)
+         event2 = %{
+          app_id: i,
+          message_id: i * 100,
+          event: random_event_2,
+          created_at: Timex.now
+        }
+        EventCollector.enqueue(event2)
+      end
 
       Logger.debug "Random event #{inspect event}"
 
