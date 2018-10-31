@@ -52,7 +52,7 @@ defmodule Mars.EventEngine.EventCollector do
 
     length = Queue.length(queue)
 
-    if(length > 0) do
+    if length > 0 do
       # IO.inspect "Queue has #{inspect length} items"
       dispatch_events(queue, incoming_demand + pending_demand, [])
     else
@@ -82,14 +82,14 @@ defmodule Mars.EventEngine.EventCollector do
 
     extracted_events = Queue.to_list(extracted_events_queue)
 
-    if !is_nil(extracted_events) do
+    if is_nil(extracted_events) do
+      # Logger.debug "no more events.. sending reply"
+      {:noreply, events, {queue, demand}}
+    else
       # Logger.debug "gotcha events.. sending reply #{inspect extracted_events}"
 
       FastGlobal.put(:event_collector_q_length, Queue.length(updated_queue))
       dispatch_events(updated_queue, 0, extracted_events)
-    else
-      # Logger.debug "no more events.. sending reply"
-      {:noreply, events, {queue, demand}}
     end
   end
 

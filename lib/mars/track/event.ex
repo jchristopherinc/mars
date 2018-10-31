@@ -2,6 +2,9 @@ defmodule Mars.Track.Event do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @moduledoc """
+  Events Table schema
+  """
 
   schema "event" do
     field :app_id, :string
