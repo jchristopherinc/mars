@@ -44,7 +44,8 @@ defmodule Mars.MixProject do
       {:cowboy, "~> 2.5"},
       {:gen_stage, "~> 0.14"},
       {:timex, "~> 3.1"},
-      {:fastglobal, "~> 1.0"}
+      {:fastglobal, "~> 1.0"},
+      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false}
     ]
   end
 

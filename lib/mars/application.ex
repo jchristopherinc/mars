@@ -18,11 +18,11 @@ defmodule Mars.Application do
       # Start link for our GenStage
       %{
         id: EventCollector,
-        start: { Mars.EventEngine.EventCollector, :start_link, [] }
+        start: {Mars.EventEngine.EventCollector, :start_link, []}
       },
       %{
         id: EventAggregator,
-        start: { Mars.EventEngine.EventAggregator, :start_link, [] }
+        start: {Mars.EventEngine.EventAggregator, :start_link, []}
       }
     ]
 

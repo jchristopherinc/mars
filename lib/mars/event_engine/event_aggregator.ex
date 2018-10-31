@@ -28,20 +28,20 @@ defmodule Mars.EventEngine.EventAggregator do
   Gets events in batch_size of 10 and periodically for every 10 seconds
   """
   def init(:ok) do
-    batch_size = 10
+    batch_size = 1_000
 
-    sync_offset = 100
+    sync_offset = 0
 
-    interval = 10_000
+    interval = 1_000
 
     Process.send_after(self(), :ask, sync_offset)
 
     state = %{batch_size: batch_size, interval: interval}
 
-    Logger.debug "State: #{inspect state}"
-    Logger.debug "Aggregator inited"
-    
-    {:consumer, state, subscribe_to: [EventCollector]}
+    # Logger.debug "State: #{inspect state}"
+    # Logger.debug "Aggregator inited"
+
+    {:consumer, state, subscribe_to: [{EventCollector, buffer_size: 10, max_demand: batch_size}]}
   end
 
   @doc """
@@ -49,13 +49,13 @@ defmodule Mars.EventEngine.EventAggregator do
   Set the subscription to manual to control when to ask for events
   """
   def handle_subscribe(:producer, _opts, from, state) do
-    Logger.debug "handle subscribe"
+    # Logger.debug "handle subscribe"
     {:manual, Map.put(state, :producer, from)}
   end
 
   # Make the subscriptions to auto for consumers
   def handle_subscribe(:consumer, _, _, state) do
-    Logger.debug "handle subscribe consumer"
+    # Logger.debug "handle subscribe consumer"
     {:automatic, state}
   end
 
@@ -63,17 +63,17 @@ defmodule Mars.EventEngine.EventAggregator do
   Actual processing of events happen here! 🎉
   """
   def handle_events(events, _from, state) do
-
     count = Enum.count(events)
-    Logger.debug "events count #{count}"
+    Logger.debug("events count #{count}")
 
     events
     |> Enum.group_by(fn entry -> entry.message_id end)
-    |> IO.inspect
 
-    for event <- events do
-      Logger.debug "event in EventAggregator #{inspect event}"
-    end
+    # |> IO.inspect
+
+    # for event <- events do
+    #   Logger.debug "event in EventAggregator #{inspect event}"
+    # end
     {:noreply, [], state}
   end
 
@@ -81,17 +81,16 @@ defmodule Mars.EventEngine.EventAggregator do
   Requests a certain amount of items to process on a set interval
   """
   def handle_info(:ask, %{batch_size: batch_size, interval: interval, producer: producer} = state) do
-    Logger.debug "handle info in aggregator"
+    # Logger.debug "handle info in aggregator"
 
     # Request a batch of events with a max batch size
     GenStage.ask(producer, batch_size)
 
-    Logger.debug "asked for events"
+    # Logger.debug "asked for events"
 
     # Schedule the next request
     Process.send_after(self(), :ask, interval)
 
     {:noreply, [], state}
   end
-
 end

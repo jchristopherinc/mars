@@ -9,7 +9,7 @@ defmodule MarsWeb.EventController do
 
   alias Mars.EventEngine.EventCollector
 
-  action_fallback MarsWeb.FallbackController
+  action_fallback(MarsWeb.FallbackController)
 
   @moduledoc """
   EventController to expose APIs for public consumption
@@ -21,7 +21,7 @@ defmodule MarsWeb.EventController do
   Returns HTTP Status code 200
   """
   def create_event(conn, _) do
-    Logger.debug "creating event"
+    Logger.debug("creating event")
 
     event_map = %{
       1 => "MESSAGE_CREATED",
@@ -34,42 +34,41 @@ defmodule MarsWeb.EventController do
 
     event_map_len = event_map |> map_size
 
-    events = for i <- 0..10 do
-      
-      random_num = :rand.uniform(event_map_len)
+    events =
+      for i <- 1..10_000 do
+        random_num = :rand.uniform(event_map_len)
 
-      random_event = Map.get(event_map, random_num)
-      
-      event = %{
-        app_id: i,
-        message_id: i * 100,
-        event: random_event,
-        created_at: Timex.now
-      }
+        random_event = Map.get(event_map, random_num)
 
-      #add events with same message_id to test aggregation :)
-      if i == 1 do
-        random_num_2 = :rand.uniform(event_map_len)
-        random_event_2 = Map.get(event_map, random_num_2)
-         event2 = %{
+        event = %{
           app_id: i,
           message_id: i * 100,
-          event: random_event_2,
-          created_at: Timex.now
+          event: random_event,
+          created_at: Timex.now()
         }
-        EventCollector.enqueue(event2)
+
+        #add events with same message_id to test aggregation :)
+        if i < 500 do
+          random_num_2 = :rand.uniform(event_map_len)
+          random_event_2 = Map.get(event_map, random_num_2)
+           event2 = %{
+            app_id: i,
+            message_id: i * 100,
+            event: random_event_2,
+            created_at: Timex.now
+          }
+          EventCollector.enqueue(event2)
+        end
+
+        # Logger.debug "Random event #{inspect event}"
+
+        EventCollector.enqueue(event)
+        # Logger.debug "Event queued"
       end
-
-      Logger.debug "Random event #{inspect event}"
-
-      EventCollector.enqueue(event)
-      Logger.debug "Event queued"
-    end
 
     conn
     |> put_status(:ok)
     |> put_resp_header("content-type", "application/json")
     |> render("create_event.json")
   end
-
 end

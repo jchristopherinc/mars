@@ -28,5 +28,4 @@ defmodule Mars.EventEngine.EventConsumer do
 
     {:ok, children, strategy: :one_for_one, subscribe_to: Mars.EventEngine.EventAggregator}
   end
-
 end
