@@ -101,4 +101,8 @@ defmodule Mars.Track do
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
   end
+
+  def insert_event(%Event{} = event) do
+    IO.inspect "#{inspect event}"
+  end
 end
