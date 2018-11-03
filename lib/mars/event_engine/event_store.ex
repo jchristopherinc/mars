@@ -5,6 +5,8 @@ defmodule Mars.EventEngine.EventStore do
   alias Mars.EventEngine.EventStore
   alias Mars.EventEngine.EventAggregator
 
+  alias Mars.Track
+
   @moduledoc """
   Place to actually store Events into DB
 
@@ -26,18 +28,15 @@ defmodule Mars.EventEngine.EventStore do
   end
 
   def handle_events(events, _from, state) do
-  
-    Logger.debug("IN STARTLINK")
 
-    count = Enum.count(events)
-    Logger.debug("STARTLINK count, #{inspect count}")
-
-    # events
-    # |> IO.inspect
-
-    #store it asynchronously
-    Task.start_link(fn ->
-      Logger.debug("EVENT IN EVENTSTORE #{inspect(events)}")
+    Enum.each(events, fn event -> 
+      Enum.map(event, fn{key, values} -> 
+        IO.puts key 
+        
+        Enum.each(values, fn value ->
+          IO.puts value.app_id
+        end)
+      end)
     end)
 
     # no events emitted for consumer
