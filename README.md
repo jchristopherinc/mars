@@ -30,6 +30,19 @@ For eg., in a batch of 10, say message ID `a` has 3 events all of them will be b
 
 Event Store, stores events into a persistent storage. It will do an upsert based on the unique messageID. 
 
+## Event Structure
+
+Sample event payload
+
+```
+%{
+  app_id: <string>,
+  message_id: <string>,
+  event: <string>,
+  created_at: <utc_timestamp>
+}
+```
+
 ### Http Endpoints
 
 Expose HTTP End points `/api/create_event` to trigger events from external systems.

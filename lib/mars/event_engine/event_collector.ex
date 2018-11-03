@@ -48,7 +48,7 @@ defmodule Mars.EventEngine.EventCollector do
   Handle the demand by consumers, to push event from this Genstage to downstream
   """
   def handle_demand(incoming_demand, {queue, pending_demand}) do
-    Logger.debug("In Genstage handle demand")
+    # Logger.debug("In Genstage handle demand")
 
     length = Queue.length(queue)
 
