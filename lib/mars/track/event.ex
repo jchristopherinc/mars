@@ -9,7 +9,7 @@ defmodule Mars.Track.Event do
   schema "event" do
     field :app_id, :string
     field :created_at, :utc_datetime
-    field :event, :string
+    field :event, :map
     field :message_id, :string
 
     timestamps()
