@@ -35,7 +35,7 @@ defmodule MarsWeb.EventController do
     event_map_len = event_map |> map_size
 
     events =
-      for i <- 1..10_000 do
+      for i <- 1..1 do
         random_num = :rand.uniform(event_map_len)
 
         random_event = Map.get(event_map, random_num)
@@ -48,17 +48,17 @@ defmodule MarsWeb.EventController do
         }
 
         #add events with same message_id to test aggregation :)
-        if i < 500 do
-          random_num_2 = :rand.uniform(event_map_len)
-          random_event_2 = Map.get(event_map, random_num_2)
-           event2 = %{
-            app_id: i,
-            message_id: i * 100,
-            event: random_event_2,
-            created_at: Timex.now
-          }
-          EventCollector.enqueue(event2)
-        end
+        # if i < 500 do
+        #   random_num_2 = :rand.uniform(event_map_len)
+        #   random_event_2 = Map.get(event_map, random_num_2)
+        #    event2 = %{
+        #     app_id: i,
+        #     message_id: i * 100,
+        #     event: random_event_2,
+        #     created_at: Timex.now
+        #   }
+        #   EventCollector.enqueue(event2)
+        # end
 
         # Logger.debug "Random event #{inspect event}"
 

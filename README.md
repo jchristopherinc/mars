@@ -44,6 +44,30 @@ https://localhost:4001/status - Service health check
 
 https://localhost:4001/api/q/stats - Queue statistics page
 
+## Stress testing
+
+You can set the number of events created during each time we hit https://localhost:4001/api/create_event in the `event_controller.ex`
+
+I've used `wrk` to generate load.
+
+Sample command
+
+`wrk -t20 -c20 -d10s https://localhost:4001/api/create_event`
+
+Sample result
+
+```
+wrk -t20 -c20 -d10s https://localhost:4001/api/create_event
+Running 10s test @ https://localhost:4001/api/create_event
+  20 threads and 20 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    28.25ms    9.13ms  56.79ms   71.36%
+    Req/Sec    35.09      8.19    59.00     79.95%
+  7092 requests in 10.10s, 1.57MB read
+Requests/sec:    702.38
+Transfer/sec:    159.24KB
+```
+
 ## Installation steps
 
 To start your Phoenix server:

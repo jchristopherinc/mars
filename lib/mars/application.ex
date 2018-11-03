@@ -23,6 +23,10 @@ defmodule Mars.Application do
       %{
         id: EventAggregator,
         start: {Mars.EventEngine.EventAggregator, :start_link, []}
+      },
+      %{
+        id: EventStore,
+        start: {Mars.EventEngine.EventStore, :start_link, []}
       }
     ]
 

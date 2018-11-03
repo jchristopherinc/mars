@@ -41,7 +41,7 @@ defmodule Mars.EventEngine.EventAggregator do
     # Logger.debug "State: #{inspect state}"
     # Logger.debug "Aggregator inited"
 
-    {:consumer, state, subscribe_to: [{EventCollector, buffer_size: 10, max_demand: batch_size}]}
+    {:producer_consumer, state, subscribe_to: [EventCollector]}
   end
 
   @doc """
@@ -63,18 +63,19 @@ defmodule Mars.EventEngine.EventAggregator do
   Actual processing of events happen here! 🎉
   """
   def handle_events(events, _from, state) do
+    Logger.debug("Inside handle eventssssssss")
     count = Enum.count(events)
     Logger.debug("events count #{count}")
 
-    events
-    |> Enum.group_by(fn entry -> entry.message_id end)
-
-    # |> IO.inspect
+    grouped_events = 
+      events
+      |> Enum.group_by(fn entry -> entry.message_id end)
+      # |> IO.inspect
 
     # for event <- events do
     #   Logger.debug "event in EventAggregator #{inspect event}"
     # end
-    {:noreply, [], state}
+    {:noreply, [grouped_events], state}
   end
 
   @doc """
