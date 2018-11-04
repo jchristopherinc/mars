@@ -15,14 +15,46 @@ defmodule MarsWeb.EventController do
   EventController to expose APIs for public consumption
   """
 
+  #Public API
+
+  @doc """
+  A public metbod to accept events from API and enqueue it to EventCollector Genstage
+
+  Returns HTTP Status code 200
+  """
+  def create_event(conn, %{"app_id" => app_id, "message_id" => message_id, "event" => event, "created_at" => created_at} = params) do
+    
+    #honour external_id only if it's available
+    external_id = params["external_id"]
+
+    event = %{
+      app_id: app_id,
+      message_id: message_id,
+      event: event,
+      created_at: created_at #TODO change it to action_time
+    }
+
+    if !is_nil(external_id) do
+      Map.put(event, :external_id, external_id)
+    end
+
+    #enqueue event into the event queue    
+    EventCollector.enqueue(event)
+
+    conn
+    |> put_status(:ok)
+    |> put_resp_header("content-type", "application/json")
+    |> render("create_event.json")
+  end
+
+  #Internal APIs
+
   @doc """
   A temporary metbod to generate random events and enqueue it to EventCollector Genstage
 
   Returns HTTP Status code 200
   """
-  def create_event(conn, _) do
-    Logger.debug("creating event")
-
+  def test_create_event(conn, _) do
     event_map = %{
       1 => "MESSAGE_CREATED",
       2 => "MESSAGE_REACHED_BACKEND",

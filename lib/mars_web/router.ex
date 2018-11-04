@@ -25,7 +25,9 @@ defmodule MarsWeb.Router do
   scope "/api", MarsWeb do
     pipe_through :api
 
-    get "/create_event", EventController, :create_event
+    get "/create_event", EventController, :test_create_event
     get "/q/stats", QueueStatusController, :get_status
+
+    post "/event", EventController, :create_event
   end
 end
