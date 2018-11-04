@@ -105,7 +105,29 @@ defmodule Mars.Track do
   @doc """
   Pushes events from EventStore.ex to DB for persistence
   """
-  def upsert_event(%Event{} = event) do
+  def upsert_event(event) do
     IO.inspect "#{inspect event}"
+
+    query_upsert_event = """
+      INSERT INTO 
+      event(app_id, message_id, event, created_at, inserted_at, updated_at) 
+      VALUES ($1::integer, $2::integer, $3::JSONB, $4, $5, $6) 
+      ON CONFLICT (app_id, message_id) 
+
+      DO 
+
+      UPDATE
+      SET event = event.event || excluded.event, updated_at = excluded.updated_at
+    """
+
+    current_timestamp = Timex.now()
+    Ecto.Adapters.SQL.query!(Repo, query_upsert_event, [
+      event.app_id, 
+      event.message_id, 
+      Jason.encode!(event.event_map),
+      current_timestamp, #created at
+      current_timestamp, #inserted at
+      current_timestamp #updated at
+      ])
   end
 end

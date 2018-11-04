@@ -11,5 +11,6 @@ defmodule Mars.Repo.Migrations.CreateEvent do
       timestamps()
     end
 
+    create unique_index(:event, [:app_id, :message_id])
   end
 end

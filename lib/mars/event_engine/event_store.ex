@@ -38,7 +38,7 @@ defmodule Mars.EventEngine.EventStore do
         
         event_map = Map.new()
         val_0 = Enum.at(values, 0)
-        
+
         #app_id lives inside each event
         app_id = val_0.app_id 
 
@@ -47,7 +47,7 @@ defmodule Mars.EventEngine.EventStore do
           |> Enum.map(fn val -> {val.event, val.created_at} end)
           |> Map.new
 
-        msg_event = %Event{app_id: app_id, message_id: key, event: event_map} #key is the message_id
+        msg_event = %{app_id: app_id, message_id: key, event_map: event_map} #key is the message_id
 
         #Push it to DB
         Track.upsert_event(msg_event)
