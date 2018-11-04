@@ -61,7 +61,6 @@ defmodule Mars.EventEngine.EventAggregator do
   Actual processing of events happen here! 🎉
   """
   def handle_events(events, _from, state) do
-    count = Enum.count(events)
 
     #group events by message_id
     grouped_events = 
