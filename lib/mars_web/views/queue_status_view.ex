@@ -1,6 +1,5 @@
 defmodule MarsWeb.QueueStatusView do
   use MarsWeb, :view
-  alias MarsWeb.QueueStatusView
 
   @doc """
   Returns a static JSON as Health Check response

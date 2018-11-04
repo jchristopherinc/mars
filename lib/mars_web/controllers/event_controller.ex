@@ -4,9 +4,6 @@ defmodule MarsWeb.EventController do
 
   require Logger
 
-  alias Mars.Track
-  alias Mars.Track.Event
-
   alias Mars.EventEngine.EventCollector
 
   action_fallback(MarsWeb.FallbackController)
@@ -66,36 +63,35 @@ defmodule MarsWeb.EventController do
 
     event_map_len = event_map |> map_size
 
-    events =
-      for i <- 1..1 do
-        random_num = :rand.uniform(event_map_len)
+    for i <- 1..1 do
+      random_num = :rand.uniform(event_map_len)
 
-        random_event = Map.get(event_map, random_num)
+      random_event = Map.get(event_map, random_num)
 
-        event = %{
-          app_id: i,
-          message_id: i * 100,
-          event: random_event,
-          created_at: Timex.now()
-        }
+      event = %{
+        app_id: i,
+        message_id: i * 100,
+        event: random_event,
+        created_at: Timex.now()
+      }
 
-        # add events with same message_id to test aggregation :)
+      # add events with same message_id to test aggregation :)
 
-        # if i < 500 do
-        #   random_num_2 = :rand.uniform(event_map_len)
-        #   random_event_2 = Map.get(event_map, random_num_2)
-        #    event2 = %{
-        #     app_id: i,
-        #     message_id: i * 100,
-        #     event: random_event_2,
-        #     created_at: Timex.now
-        #   }
-        #   EventCollector.enqueue(event2)
-        # end
+      # if i < 500 do
+      #   random_num_2 = :rand.uniform(event_map_len)
+      #   random_event_2 = Map.get(event_map, random_num_2)
+      #    event2 = %{
+      #     app_id: i,
+      #     message_id: i * 100,
+      #     event: random_event_2,
+      #     created_at: Timex.now
+      #   }
+      #   EventCollector.enqueue(event2)
+      # end
 
 
-        EventCollector.enqueue(event)
-      end
+      EventCollector.enqueue(event)
+    end
 
     conn
     |> put_status(:ok)

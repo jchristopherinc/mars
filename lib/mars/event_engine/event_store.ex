@@ -6,7 +6,6 @@ defmodule Mars.EventEngine.EventStore do
   alias Mars.EventEngine.EventAggregator
 
   alias Mars.Track
-  alias Mars.Track.Event
 
   @moduledoc """
   Place to actually store Events into DB
@@ -36,7 +35,6 @@ defmodule Mars.EventEngine.EventStore do
     Enum.each(events, fn event -> 
       Enum.map(event, fn{key, values} ->  
         
-        event_map = Map.new()
         val_0 = Enum.at(values, 0)
 
         #app_id lives inside each event
