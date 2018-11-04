@@ -29,13 +29,12 @@ defmodule Mars.EventEngine.EventCollector do
     {:producer, {Queue.new(), 0}, dispatcher: GenStage.DemandDispatcher}
   end
 
-  ## Callback
+  ## Callbacks
 
   @doc """
   Handle the cast generated when an Event is enqueued
   """
   def handle_cast({:enqueue, event}, {queue, pending_demand}) do
-    # Logger.debug "In Genstage handle cast"   
     updated_queue = Queue.insert(queue, event)
 
     q_length = Queue.length(updated_queue)
@@ -48,12 +47,10 @@ defmodule Mars.EventEngine.EventCollector do
   Handle the demand by consumers, to push event from this Genstage to downstream
   """
   def handle_demand(incoming_demand, {queue, pending_demand}) do
-    # Logger.debug("In Genstage handle demand")
 
     length = Queue.length(queue)
 
     if length > 0 do
-      # IO.inspect "Queue has #{inspect length} items"
       dispatch_events(queue, incoming_demand + pending_demand, [])
     else
       {:noreply, [], {queue, 0}}
@@ -65,29 +62,24 @@ defmodule Mars.EventEngine.EventCollector do
   @doc """
   Public method to push events to EventCollector
   """
-  def enqueue(event) do
-    # Logger.debug "In Genstage enqueue"                                                                                                                                        
+  def enqueue(event) do                                                                                                                                     
     GenStage.cast(__MODULE__, {:enqueue, event})
   end
 
-  ## Private method
+  ## Private methods
 
   @doc """
   Gets the events from the queue for dispatching, when requested by downstream consumers
   """
   defp dispatch_events(queue, demand, events) when demand > 0 do
-    # IO.inspect "demand #{demand}"
 
     {extracted_events_queue, updated_queue} = Queue.take(queue, demand)
 
     extracted_events = Queue.to_list(extracted_events_queue)
 
     if is_nil(extracted_events) do
-      # Logger.debug "no more events.. sending reply"
       {:noreply, events, {queue, demand}}
     else
-      # Logger.debug "gotcha events.. sending reply #{inspect extracted_events}"
-
       FastGlobal.put(:event_collector_q_length, Queue.length(updated_queue))
       dispatch_events(updated_queue, 0, extracted_events)
     end

@@ -15,7 +15,7 @@ defmodule Mars.Application do
       # Starts a worker by calling: Mars.Worker.start_link(arg)
       # {Mars.Worker, arg},
 
-      # Start link for our GenStage
+      # Starting links to our EventEngine GenStages
       %{
         id: EventCollector,
         start: {Mars.EventEngine.EventCollector, :start_link, []}

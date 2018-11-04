@@ -47,7 +47,8 @@ defmodule MarsWeb.EventController do
           created_at: Timex.now()
         }
 
-        #add events with same message_id to test aggregation :)
+        # add events with same message_id to test aggregation :)
+
         # if i < 500 do
         #   random_num_2 = :rand.uniform(event_map_len)
         #   random_event_2 = Map.get(event_map, random_num_2)
@@ -60,10 +61,8 @@ defmodule MarsWeb.EventController do
         #   EventCollector.enqueue(event2)
         # end
 
-        # Logger.debug "Random event #{inspect event}"
 
         EventCollector.enqueue(event)
-        # Logger.debug "Event queued"
       end
 
     conn

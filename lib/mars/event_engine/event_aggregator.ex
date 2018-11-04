@@ -38,11 +38,10 @@ defmodule Mars.EventEngine.EventAggregator do
 
     state = %{batch_size: batch_size, interval: interval}
 
-    # Logger.debug "State: #{inspect state}"
-    # Logger.debug "Aggregator inited"
-
     {:producer_consumer, state, subscribe_to: [EventCollector]}
   end
+
+  #callbacks
 
   @doc """
   Handling subscription
@@ -55,7 +54,6 @@ defmodule Mars.EventEngine.EventAggregator do
 
   # Make the subscriptions to auto for consumers
   def handle_subscribe(:consumer, _, _, state) do
-    # Logger.debug "handle subscribe consumer"
     {:automatic, state}
   end
 
@@ -63,18 +61,13 @@ defmodule Mars.EventEngine.EventAggregator do
   Actual processing of events happen here! 🎉
   """
   def handle_events(events, _from, state) do
-    Logger.debug("Inside handle eventssssssss")
     count = Enum.count(events)
-    Logger.debug("events count #{count}")
 
+    #group events by message_id
     grouped_events = 
       events
       |> Enum.group_by(fn entry -> entry.message_id end)
-      # |> IO.inspect
 
-    # for event <- events do
-    #   Logger.debug "event in EventAggregator #{inspect event}"
-    # end
     {:noreply, [grouped_events], state}
   end
 
@@ -82,12 +75,9 @@ defmodule Mars.EventEngine.EventAggregator do
   Requests a certain amount of items to process on a set interval
   """
   def handle_info(:ask, %{batch_size: batch_size, interval: interval, producer: producer} = state) do
-    # Logger.debug "handle info in aggregator"
 
     # Request a batch of events with a max batch size
     GenStage.ask(producer, batch_size)
-
-    # Logger.debug "asked for events"
 
     # Schedule the next request
     Process.send_after(self(), :ask, interval)

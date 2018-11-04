@@ -102,7 +102,10 @@ defmodule Mars.Track do
     Event.changeset(event, %{})
   end
 
-  def insert_event(%Event{} = event) do
+  @doc """
+  Pushes events from EventStore.ex to DB for persistence
+  """
+  def upsert_event(%Event{} = event) do
     IO.inspect "#{inspect event}"
   end
 end
