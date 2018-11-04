@@ -11,9 +11,23 @@ defmodule Mars.Application do
       # Start the Ecto repository
       Mars.Repo,
       # Start the endpoint when the application starts
-      MarsWeb.Endpoint
+      MarsWeb.Endpoint,
       # Starts a worker by calling: Mars.Worker.start_link(arg)
       # {Mars.Worker, arg},
+
+      # Starting links to our EventEngine GenStages
+      %{
+        id: EventCollector,
+        start: {Mars.EventEngine.EventCollector, :start_link, []}
+      },
+      %{
+        id: EventAggregator,
+        start: {Mars.EventEngine.EventAggregator, :start_link, []}
+      },
+      %{
+        id: EventStore,
+        start: {Mars.EventEngine.EventStore, :start_link, []}
+      }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
