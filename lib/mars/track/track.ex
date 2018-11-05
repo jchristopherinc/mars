@@ -117,7 +117,7 @@ defmodule Mars.Track do
       DO 
 
       UPDATE
-      SET event = event.event || excluded.event, updated_at = excluded.updated_at
+      SET event = event.event::JSONB || excluded.event::JSONB, updated_at = excluded.updated_at
     """
 
     #to have a common time stamp
@@ -127,10 +127,14 @@ defmodule Mars.Track do
     Ecto.Adapters.SQL.query!(Repo, query_upsert_event, [
       event.app_id, 
       event.message_id, 
-      Jason.encode!(event.event_map),
+      event.event_map,
       current_timestamp, #created at
       current_timestamp, #inserted at
       current_timestamp #updated at
     ])
+  end
+
+  def get_event_by_message_id(message_id) do
+    Repo.get_by(Event, message_id: message_id)
   end
 end

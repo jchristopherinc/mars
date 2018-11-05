@@ -1,0 +1,19 @@
+<section class="row">
+  <article class="column">
+    <h3>Events for Message ID: <%= @message_id %> for App ID: <%= @app_id %></h3>
+    
+    <%= for {event, time} <- @event do %>
+      <blockquote>
+        <p> 
+          <strong>
+            <%= parse_event(event) %>
+          </strong> 
+          -
+          <em>
+            <%= parse_time(time) %> 
+          </em>
+        </p>
+      </blockquote>
+    <% end %>
+  </article>
+</section>
