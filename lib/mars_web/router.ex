@@ -13,14 +13,6 @@ defmodule MarsWeb.Router do
     plug :accepts, ["json"]
   end
 
-  # HTML 
-  scope "/", MarsWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-    get "/status", StatusController, :get_status
-  end
-
   # API
   scope "/api", MarsWeb do
     pipe_through :api
@@ -29,5 +21,15 @@ defmodule MarsWeb.Router do
     get "/q/stats", QueueStatusController, :get_status
 
     post "/event", EventController, :create_event
+  end
+
+  # HTML 
+  scope "/", MarsWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    get "/status", StatusController, :get_status
+    post "/search/event", EventController, :list_events
+    get "/*path", PageController, :index
   end
 end

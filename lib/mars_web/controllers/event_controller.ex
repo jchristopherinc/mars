@@ -4,6 +4,7 @@ defmodule MarsWeb.EventController do
 
   require Logger
 
+  alias Mars.Track
   alias Mars.EventEngine.EventCollector
 
   action_fallback(MarsWeb.FallbackController)
@@ -44,6 +45,24 @@ defmodule MarsWeb.EventController do
     |> render("create_event.json")
   end
 
+  def list_events(conn, params) do
+
+    message_id = params["messageId"]["messageId"] #dunno why I need to query it this way.. sucks.. 
+
+    if !is_nil(message_id) do
+
+      message_with_event = Track.get_event_by_message_id(message_id)
+
+      IO.inspect "#{inspect message_with_event}"
+
+      conn
+      |> put_status(:ok)
+      |> render("index.html", message_id: message_with_event.message_id, 
+                              app_id: message_with_event.app_id,
+                              event: message_with_event.event)
+    end
+  end
+
   #Internal APIs
 
   @doc """
@@ -63,7 +82,7 @@ defmodule MarsWeb.EventController do
 
     event_map_len = event_map |> map_size
 
-    for i <- 1..1 do
+    for i <- 13_000..13_000 do
       random_num = :rand.uniform(event_map_len)
 
       random_event = Map.get(event_map, random_num)

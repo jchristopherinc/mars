@@ -5,7 +5,7 @@ defmodule Mars.Repo.Migrations.CreateEvent do
     create table(:event) do
       add :message_id, :string
       add :app_id, :string
-      add :event, :jsonb, default: "[]", null: false
+      add :event, :jsonb
       add :created_at, :utc_datetime
 
       timestamps()
