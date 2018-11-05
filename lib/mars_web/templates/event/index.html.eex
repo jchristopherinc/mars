@@ -1,6 +1,6 @@
 <section class="row">
   <article class="column">
-    <h3>Events for Message ID: <%= @message_id %> for App ID: <%= @app_id %></h3>
+    <h4>Events for Message ID: <strong><%= @message_id %></strong> in App ID: <strong><%= @app_id %></strong></h4>
     
     <%= for {event, time} <- @event do %>
       <blockquote>
