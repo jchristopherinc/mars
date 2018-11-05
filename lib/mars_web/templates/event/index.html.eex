@@ -4,15 +4,18 @@
     
     <%= for {event, time} <- @event do %>
       <blockquote>
-        <p> 
-          <strong>
-            <%= parse_event(event) %>
-          </strong> 
-          -
-          <em>
-            <%= parse_time(time) %> 
-          </em>
-        </p>
+        <div class="row">
+          <div class="column">
+            <strong>
+              <%= parse_event(event) %>
+            </strong> 
+          </div>
+          <div class="column">
+            <em>
+              <%= parse_time(time) %> 
+            </em>
+          </div>
+        </div>
       </blockquote>
     <% end %>
   </article>
