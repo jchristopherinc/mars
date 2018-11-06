@@ -53,13 +53,18 @@ defmodule MarsWeb.EventController do
 
       message_with_event = Track.get_event_by_message_id(message_id)
 
-      IO.inspect "#{inspect message_with_event}"
-
-      conn
-      |> put_status(:ok)
-      |> render("index.html", message_id: message_with_event.message_id, 
-                              app_id: message_with_event.app_id,
-                              event: message_with_event.event)
+      if !is_nil(message_with_event) do
+        conn
+        |> put_status(:ok)
+        |> render("index.html", success: true,
+                                message_id: message_with_event.message_id, 
+                                app_id: message_with_event.app_id,
+                                event: message_with_event.event)
+      else
+        conn
+        |> put_status(:ok)
+        |> render("index.html", success: false, message_id: message_id)
+      end
     end
   end
 

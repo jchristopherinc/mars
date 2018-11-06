@@ -1,7 +1,7 @@
 <section class="row">
   <article class="column">
+  <%= if @success do %>
     <h4>Events for Message ID: <strong><%= @message_id %></strong> in App ID: <strong><%= @app_id %></strong></h4>
-    
     <%= for {event, time} <- @event do %>
       <blockquote>
         <div class="row">
@@ -18,5 +18,16 @@
         </div>
       </blockquote>
     <% end %>
+  <% else %>
+    <h4>No event found for MessageID: <strong><%= @message_id %></strong> in <em>M.A.R.S</em></h4>
+    <div class="row">
+    <div class="column column-50 column-offset-25">
+      <img src="<%= Routes.static_path(@conn, "/images/undraw_lost.svg") %>" alt="not_found" height="400" width="400"/>
+      <p style="text-align: center">
+        Launched from Earth but, lost way in the Space?
+      </p>
+    </div>
+    </div>
+  <% end %>
   </article>
 </section>
