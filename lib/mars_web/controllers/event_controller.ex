@@ -82,7 +82,7 @@ defmodule MarsWeb.EventController do
 
     event_map_len = event_map |> map_size
 
-    for i <- 13_000..13_000 do
+    for i <- 1..1_000 do
       random_num = :rand.uniform(event_map_len)
 
       random_event = Map.get(event_map, random_num)
