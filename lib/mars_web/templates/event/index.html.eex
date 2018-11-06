@@ -24,7 +24,7 @@
     <div class="column column-50 column-offset-25">
       <img src="<%= Routes.static_path(@conn, "/images/undraw_lost.svg") %>" alt="not_found" height="400" width="400"/>
       <p style="text-align: center">
-        Launched from Earth but, lost way in the Space?
+        Launched from Earth, for sure. <br/>Lost its way in the Space? 🤔
       </p>
     </div>
     </div>
