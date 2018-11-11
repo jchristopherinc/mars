@@ -87,14 +87,16 @@ defmodule MarsWeb.EventController do
 
     event_map_len = event_map |> map_size
 
-    for i <- 1..1_000 do
+    for i <- 1..1 do
       random_num = :rand.uniform(event_map_len)
 
       random_event = Map.get(event_map, random_num)
 
+      random_id = :rand.uniform(10000)
+
       event = %{
-        app_id: i,
-        message_id: i * 100,
+        app_id: random_id,
+        message_id: random_id * 100,
         event: random_event,
         created_at: Timex.now()
       }
