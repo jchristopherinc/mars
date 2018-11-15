@@ -47,8 +47,9 @@ defmodule Mars.MixProject do
       {:fastglobal, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
 
-      #-----dev dependencies below this-----
-      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false}
+      # -----dev dependencies below this-----
+      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
+      {:git_hooks, "~> 0.2.0", only: :dev, runtime: false}
     ]
   end
 
