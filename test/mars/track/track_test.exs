@@ -6,8 +6,18 @@ defmodule Mars.TrackTest do
   describe "event" do
     alias Mars.Track.Event
 
-    @valid_attrs %{app_id: "some app_id", created_at: "2010-04-17 14:00:00.000000Z", event: "some event", message_id: "some message_id"}
-    @update_attrs %{app_id: "some updated app_id", created_at: "2011-05-18 15:01:01.000000Z", event: "some updated event", message_id: "some updated message_id"}
+    @valid_attrs %{
+      app_id: "some app_id",
+      created_at: "2010-04-17 14:00:00.000000Z",
+      event: "some event",
+      message_id: "some message_id"
+    }
+    @update_attrs %{
+      app_id: "some updated app_id",
+      created_at: "2011-05-18 15:01:01.000000Z",
+      event: "some updated event",
+      message_id: "some updated message_id"
+    }
     @invalid_attrs %{app_id: nil, created_at: nil, event: nil, message_id: nil}
 
     def event_fixture(attrs \\ %{}) do
@@ -45,7 +55,6 @@ defmodule Mars.TrackTest do
       event = event_fixture()
       assert {:ok, %Event{} = event} = Track.update_event(event, @update_attrs)
 
-      
       assert event.app_id == "some updated app_id"
       assert event.created_at == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
       assert event.event == "some updated event"

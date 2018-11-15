@@ -38,10 +38,11 @@ defmodule Mars.EventEngine.EventAggregator do
 
     state = %{batch_size: batch_size, interval: interval}
 
-    {:producer_consumer, state, subscribe_to: [{EventCollector, min_demand: 1_000, max_demand: 2_000}]}
+    {:producer_consumer, state,
+     subscribe_to: [{EventCollector, min_demand: 1_000, max_demand: 2_000}]}
   end
 
-  #callbacks
+  # callbacks
 
   @doc """
   Handling subscription
@@ -61,9 +62,8 @@ defmodule Mars.EventEngine.EventAggregator do
   Actual processing of events happen here! 🎉
   """
   def handle_events(events, _from, state) do
-
-    #group events by message_id
-    grouped_events = 
+    # group events by message_id
+    grouped_events =
       events
       |> Enum.group_by(fn entry -> entry.message_id end)
 
@@ -74,7 +74,6 @@ defmodule Mars.EventEngine.EventAggregator do
   Requests a certain amount of items to process on a set interval
   """
   def handle_info(:ask, %{batch_size: batch_size, interval: interval, producer: producer} = state) do
-
     # Request a batch of events with a max batch size
     GenStage.ask(producer, batch_size)
 

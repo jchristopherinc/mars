@@ -13,30 +13,38 @@ defmodule MarsWeb.EventController do
   EventController to expose APIs for public consumption
   """
 
-  #Public API
+  # Public API
 
   @doc """
   A public metbod to accept events from API and enqueue it to EventCollector Genstage
 
   Returns HTTP Status code 200
   """
-  def create_event(conn, %{"app_id" => app_id, "message_id" => message_id, "event" => event, "created_at" => created_at} = params) do
-    
-    #honour external_id only if it's available
+  def create_event(
+        conn,
+        %{
+          "app_id" => app_id,
+          "message_id" => message_id,
+          "event" => event,
+          "created_at" => created_at
+        } = params
+      ) do
+    # honour external_id only if it's available
     external_id = params["external_id"]
 
     event = %{
       app_id: app_id,
       message_id: message_id,
       event: event,
-      created_at: created_at #TODO change it to action_time
+      # TODO change it to action_time
+      created_at: created_at
     }
 
     if !is_nil(external_id) do
       Map.put(event, :external_id, external_id)
     end
 
-    #enqueue event into the event queue    
+    # enqueue event into the event queue    
     EventCollector.enqueue(event)
 
     conn
@@ -46,20 +54,21 @@ defmodule MarsWeb.EventController do
   end
 
   def list_events(conn, params) do
-
-    message_id = params["messageId"]["messageId"] #dunno why I need to query it this way.. sucks.. 
+    # dunno why I need to query it this way.. sucks.. 
+    message_id = params["messageId"]["messageId"]
 
     if !is_nil(message_id) do
-
       message_with_event = Track.get_event_by_message_id(message_id)
 
       if !is_nil(message_with_event) do
         conn
         |> put_status(:ok)
-        |> render("index.html", success: true,
-                                message_id: message_with_event.message_id, 
-                                app_id: message_with_event.app_id,
-                                event: message_with_event.event)
+        |> render("index.html",
+          success: true,
+          message_id: message_with_event.message_id,
+          app_id: message_with_event.app_id,
+          event: message_with_event.event
+        )
       else
         conn
         |> put_status(:ok)
@@ -68,7 +77,7 @@ defmodule MarsWeb.EventController do
     end
   end
 
-  #Internal APIs
+  # Internal APIs
 
   @doc """
   A temporary metbod to generate random events and enqueue it to EventCollector Genstage
@@ -114,7 +123,6 @@ defmodule MarsWeb.EventController do
       #   }
       #   EventCollector.enqueue(event2)
       # end
-
 
       EventCollector.enqueue(event)
     end

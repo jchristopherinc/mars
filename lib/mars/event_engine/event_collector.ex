@@ -47,7 +47,6 @@ defmodule Mars.EventEngine.EventCollector do
   Handle the demand by consumers, to push event from this Genstage to downstream
   """
   def handle_demand(incoming_demand, {queue, pending_demand}) do
-
     length = Queue.length(queue)
 
     if length > 0 do
@@ -62,7 +61,7 @@ defmodule Mars.EventEngine.EventCollector do
   @doc """
   Public method to push events to EventCollector
   """
-  def enqueue(event) do                                                                                                                                     
+  def enqueue(event) do
     GenStage.cast(__MODULE__, {:enqueue, event})
   end
 
@@ -72,7 +71,6 @@ defmodule Mars.EventEngine.EventCollector do
   Gets the events from the queue for dispatching, when requested by downstream consumers
   """
   defp dispatch_events(queue, demand, events) when demand > 0 do
-
     {extracted_events_queue, updated_queue} = Queue.take(queue, demand)
 
     extracted_events = Queue.to_list(extracted_events_queue)

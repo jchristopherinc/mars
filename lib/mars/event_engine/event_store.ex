@@ -31,23 +31,22 @@ defmodule Mars.EventEngine.EventStore do
   Handles events, creates Model object out of it and pushes it to DB.
   """
   def handle_events(events, _from, state) do
-
-    Enum.each(events, fn event -> 
-      Enum.map(event, fn{key, values} ->  
-        
+    Enum.each(events, fn event ->
+      Enum.map(event, fn {key, values} ->
         val_0 = Enum.at(values, 0)
 
-        #app_id lives inside each event
-        app_id = val_0.app_id 
+        # app_id lives inside each event
+        app_id = val_0.app_id
 
-        event_map = 
-          values 
+        event_map =
+          values
           |> Enum.map(fn val -> {val.event, val.created_at} end)
-          |> Map.new
+          |> Map.new()
 
-        msg_event = %{app_id: app_id, message_id: key, event_map: event_map} #key is the message_id
+        # key is the message_id
+        msg_event = %{app_id: app_id, message_id: key, event_map: event_map}
 
-        #Push it to DB
+        # Push it to DB
         Track.upsert_event(msg_event)
       end)
     end)
