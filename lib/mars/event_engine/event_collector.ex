@@ -56,7 +56,7 @@ defmodule Mars.EventEngine.EventCollector do
     end
   end
 
-  ##Public method
+  ## Public method
 
   @doc """
   Public method to push events to EventCollector
