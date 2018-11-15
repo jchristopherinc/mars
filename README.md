@@ -24,7 +24,7 @@ Event Collector will be a FIFO Queue to receive all events from HTTP End points/
 
 Event Aggregator GenStage will periodically poll *EventCollector* with a pre-defined batch size to get events from the FIFO Queue and aggregate it by a unique message ID. 
 
-For eg., in a batch of 10, say message ID `a` has 3 events all of them will be batched together and made as a single event. 
+For eg., in a batch of 10, say message ID `a` has 3 events all of them will be batched together and made as a single entry with array of events as it's value. 
 
 **EventStore**
 
