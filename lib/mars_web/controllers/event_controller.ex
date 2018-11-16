@@ -60,7 +60,11 @@ defmodule MarsWeb.EventController do
     if !is_nil(message_id) do
       message_with_event = Track.get_event_by_message_id(message_id)
 
-      if !is_nil(message_with_event) do
+      if is_nil(message_with_event) do
+        conn
+        |> put_status(:ok)
+        |> render("index.html", success: false, message_id: message_id)
+      else
         conn
         |> put_status(:ok)
         |> render("index.html",
@@ -69,10 +73,6 @@ defmodule MarsWeb.EventController do
           app_id: message_with_event.app_id,
           event: message_with_event.event
         )
-      else
-        conn
-        |> put_status(:ok)
-        |> render("index.html", success: false, message_id: message_id)
       end
     end
   end
@@ -101,7 +101,7 @@ defmodule MarsWeb.EventController do
 
       random_event = Map.get(event_map, random_num)
 
-      random_id = :rand.uniform(10000)
+      random_id = :rand.uniform(10_000)
 
       event = %{
         app_id: random_id,
