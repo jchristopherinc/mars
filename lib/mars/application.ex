@@ -5,6 +5,9 @@ defmodule Mars.Application do
 
   use Application
 
+  @max_event_aggregators 3
+  @max_event_stores 3
+
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
@@ -19,21 +22,30 @@ defmodule Mars.Application do
       %{
         id: EventCollector,
         start: {Mars.EventEngine.EventCollector, :start_link, []}
-      },
-      %{
-        id: EventAggregator,
-        start: {Mars.EventEngine.EventAggregator, :start_link, []}
-      },
-      %{
-        id: EventStore,
-        start: {Mars.EventEngine.EventStore, :start_link, []}
       }
     ]
 
+    event_aggregators =
+      for id <- 1..@max_event_aggregators do
+        %{
+          id: "Elixir.Mars.EventEngine.EventAggregator:#{id}",
+          start: {Mars.EventEngine.EventAggregator, :start_link, [id]}
+        }
+      end
+
+    event_stores =
+      for id <- 1..@max_event_stores do
+        current_id = id + @max_event_aggregators
+        %{
+          id: "EventStore:#{current_id}",
+          start: {Mars.EventEngine.EventStore, :start_link, [{current_id, @max_event_stores}]}
+        }
+      end
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Mars.Supervisor]
-    Supervisor.start_link(children, opts)
+    opts = [strategy: :one_for_one, name: Mars.Supervisor, max_restarts: 10]
+    Supervisor.start_link(children ++ event_aggregators ++ event_stores, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration

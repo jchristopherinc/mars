@@ -78,4 +78,4 @@ config :mars, Mars.Repo,
   password: "cappuccino",
   database: "mars_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 20

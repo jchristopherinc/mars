@@ -2,8 +2,6 @@ defmodule Mars.EventEngine.EventStore do
   use GenStage
   require Logger
 
-  alias Mars.EventEngine.EventAggregator
-  alias Mars.EventEngine.EventStore
   alias Mars.Track
 
   @moduledoc """
@@ -15,15 +13,20 @@ defmodule Mars.EventEngine.EventStore do
   @doc """
   Genstage start link. Used by Application supervisor to start the genstage
   """
-  def start_link do
-    GenStage.start_link(EventStore, :ok, name: __MODULE__)
+  def start_link({id, subscribers}) do
+    name = :"EventStore:#{id}"
+    GenStage.start_link(__MODULE__, {:ok, subscribers}, name: name)
   end
 
   @doc """
   Establishes subscription to EventAggregator
   """
-  def init(:ok) do
-    {:consumer, :ok, subscribe_to: [{EventAggregator, min_demand: 1_000, max_demand: 2_000}]}
+  def init({:ok, subscribers}) do
+    producers = 
+      for id <- 1..subscribers do
+        {:"Elixir.Mars.EventEngine.EventAggregator:#{id}", min_demand: 1_000, max_demand: 2_000}
+      end
+    {:consumer, :ok, subscribe_to: producers}
   end
 
   @doc """
