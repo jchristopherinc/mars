@@ -29,18 +29,18 @@ defmodule Mars.EventEngine.EventAggregator do
   Gets events in batch_size of 10 and periodically for every 10 seconds
   """
   def init(:ok) do
-    batch_size = 1_000
+    batch_size = 10_000
 
     sync_offset = 0
 
-    interval = 1_000
+    interval = 3_000
 
     Process.send_after(self(), :ask, sync_offset)
 
     state = %{batch_size: batch_size, interval: interval}
 
     {:producer_consumer, state,
-     subscribe_to: [{EventCollector, min_demand: 1_000, max_demand: 2_000}]}
+     subscribe_to: [{EventCollector, min_demand: 1_00, max_demand: 2_000}]}
   end
 
   # callbacks
