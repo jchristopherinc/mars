@@ -5,8 +5,8 @@ defmodule Mars.Application do
 
   use Application
 
-  @max_event_aggregators 3
-  @max_event_stores 3
+  @max_event_aggregators 10
+  @max_event_stores 10
 
   def start(_type, _args) do
     # List all child processes to be supervised
