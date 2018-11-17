@@ -70,15 +70,15 @@ Sample command
 Sample result
 
 ```
-wrk -t10 -c20 -d10s https://localhost:4001/api/create_event
+wrk -t20 -c40 -d10s https://localhost:4001/api/create_event
 Running 10s test @ https://localhost:4001/api/create_event
-  10 threads and 20 connections
+  20 threads and 40 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    25.95ms    8.42ms  64.90ms   79.21%
-    Req/Sec    76.89     15.27   111.00     65.66%
-  7696 requests in 10.05s, 1.70MB read
-Requests/sec:    765.74
-Transfer/sec:    173.60KB
+    Latency    35.87ms   12.42ms 114.32ms   72.52%
+    Req/Sec    55.73     12.56    90.00     62.63%
+  11170 requests in 10.10s, 2.47MB read
+Requests/sec:   1105.89
+Transfer/sec:    250.70KB
 ```
 
 ## Installation steps
