@@ -19,7 +19,6 @@ defmodule Mars.EventEngine.EventAggregator do
   """
   def start_link(id) do
     name = :"#{__MODULE__}:#{id}"
-    IO.inspect("name: #{name}")
     GenStage.start_link(__MODULE__, :ok, name: name)
   end
 
