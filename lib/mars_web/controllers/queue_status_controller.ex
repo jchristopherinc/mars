@@ -16,8 +16,6 @@ defmodule MarsWeb.QueueStatusController do
   def get_status(conn, _params) do
     event_collector_queue_length = EventCollector.queue_length()
 
-    Logger.debug("Queue collector length : #{inspect(event_collector_queue_length)}")
-
     event_collector_queue_length =
       if is_nil(event_collector_queue_length) do
         0
