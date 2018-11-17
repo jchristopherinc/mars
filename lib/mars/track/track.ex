@@ -4,8 +4,9 @@ defmodule Mars.Track do
   """
 
   import Ecto.Query, warn: false
-  alias Mars.Repo
 
+  alias Ecto.Adapters.SQL
+  alias Mars.Repo
   alias Mars.Track.Event
 
   @doc """
@@ -123,7 +124,7 @@ defmodule Mars.Track do
     current_timestamp = Timex.now()
 
     # upsert event into the DB
-    Ecto.Adapters.SQL.query!(Repo, query_upsert_event, [
+    SQL.query!(Repo, query_upsert_event, [
       event.app_id,
       event.message_id,
       event.event_map,

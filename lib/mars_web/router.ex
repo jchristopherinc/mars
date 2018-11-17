@@ -23,7 +23,7 @@ defmodule MarsWeb.Router do
     post "/event", EventController, :create_event
   end
 
-  # HTML 
+  # HTML
   scope "/", MarsWeb do
     pipe_through :browser
 

@@ -4,8 +4,8 @@ defmodule MarsWeb.EventController do
 
   require Logger
 
-  alias Mars.Track
   alias Mars.EventEngine.EventCollector
+  alias Mars.Track
 
   action_fallback(MarsWeb.FallbackController)
 
@@ -44,7 +44,7 @@ defmodule MarsWeb.EventController do
       Map.put(event, :external_id, external_id)
     end
 
-    # enqueue event into the event queue    
+    # enqueue event into the event queue
     EventCollector.enqueue(event)
 
     conn
@@ -54,7 +54,7 @@ defmodule MarsWeb.EventController do
   end
 
   def list_events(conn, params) do
-    # dunno why I need to query it this way.. sucks.. 
+    # dunno why I need to query it this way.. sucks..
     message_id = params["messageId"]["messageId"]
 
     if !is_nil(message_id) do

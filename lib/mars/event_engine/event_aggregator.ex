@@ -17,7 +17,7 @@ defmodule Mars.EventEngine.EventAggregator do
   @doc """
   Genstage start link. Used by Application supervisor to start the genstage
   """
-  def start_link() do
+  def start_link do
     GenStage.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 

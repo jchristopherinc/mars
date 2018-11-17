@@ -15,6 +15,8 @@ defmodule MarsWeb.ChannelCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL
+
   using do
     quote do
       # Import conveniences for testing with channels
@@ -26,10 +28,10 @@ defmodule MarsWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Mars.Repo)
+    :ok = SQL.Sandbox.checkout(Mars.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Mars.Repo, {:shared, self()})
+      SQL.Sandbox.mode(Mars.Repo, {:shared, self()})
     end
 
     :ok

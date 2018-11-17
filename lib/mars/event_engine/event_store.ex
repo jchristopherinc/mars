@@ -2,9 +2,8 @@ defmodule Mars.EventEngine.EventStore do
   use GenStage
   require Logger
 
-  alias Mars.EventEngine.EventStore
   alias Mars.EventEngine.EventAggregator
-
+  alias Mars.EventEngine.EventStore
   alias Mars.Track
 
   @moduledoc """
@@ -16,7 +15,7 @@ defmodule Mars.EventEngine.EventStore do
   @doc """
   Genstage start link. Used by Application supervisor to start the genstage
   """
-  def start_link() do
+  def start_link do
     GenStage.start_link(EventStore, :ok, name: __MODULE__)
   end
 
@@ -40,7 +39,7 @@ defmodule Mars.EventEngine.EventStore do
 
         event_map =
           values
-          |> Enum.map(fn val -> {val.event, val.created_at} end)
+          |> Enum.map(&create_map/1)
           |> Map.new()
 
         # key is the message_id
@@ -53,5 +52,9 @@ defmodule Mars.EventEngine.EventStore do
 
     # no events emitted for consumer
     {:noreply, [], state}
+  end
+
+  def create_map(val) do
+    {val.event, val.created_at}
   end
 end

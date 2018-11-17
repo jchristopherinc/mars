@@ -14,6 +14,8 @@ defmodule Mars.DataCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL
+
   using do
     quote do
       alias Mars.Repo
@@ -26,10 +28,10 @@ defmodule Mars.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Mars.Repo)
+    :ok = SQL.Sandbox.checkout(Mars.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Mars.Repo, {:shared, self()})
+      SQL.Sandbox.mode(Mars.Repo, {:shared, self()})
     end
 
     :ok
