@@ -36,6 +36,7 @@ defmodule Mars.Application do
     event_stores =
       for id <- 1..@max_event_stores do
         current_id = id + @max_event_aggregators
+
         %{
           id: "EventStore:#{current_id}",
           start: {Mars.EventEngine.EventStore, :start_link, [{current_id, @max_event_stores}]}
