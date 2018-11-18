@@ -8,3 +8,5 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 /assets/node_modules/*
+/.elixir_ls/*
+*.pem
