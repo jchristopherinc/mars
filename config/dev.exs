@@ -74,8 +74,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :mars, Mars.Repo,
-  username: "latte",
-  password: "cappuccino",
-  database: "mars_dev",
-  hostname: "localhost",
+  username: System.get_env("DEV_DB_USER_NAME"),
+  password: System.get_env("DEV_DB_PASSWORD"),
+  database: System.get_env("DEV_DB_NAME"),
+  hostname: System.get_env("DEV_DB_HOST"),
   pool_size: 20
