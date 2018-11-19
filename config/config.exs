@@ -7,7 +7,7 @@
 # General application configuration
 use Mix.Config
 
-#local environment config
+# local environment config
 import_config "env.local.exs"
 
 config :mars,
