@@ -6,6 +6,8 @@ defmodule Mars.EventEngine.EventCollector do
   alias Mars.EventEngine.EventStateContainer
   alias Mars.Structures.Queue
 
+  @max_buffer_size 100_000
+
   @moduledoc """
   Events are pushed to the queue from EventController. 
   EventCollector is a queue to receive all these events from APIs for further downstream processing
@@ -38,7 +40,7 @@ defmodule Mars.EventEngine.EventCollector do
 
     IO.inspect("State from agent #{inspect(state)}")
 
-    {:producer, state, dispatcher: GenStage.DemandDispatcher}
+    {:producer, state, dispatcher: GenStage.DemandDispatcher, buffer_size: @max_buffer_size}
   end
 
   ## Callbacks
