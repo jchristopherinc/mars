@@ -3,7 +3,10 @@ defmodule Mars.EventEngine.EventCollector do
 
   require Logger
 
+  alias Mars.EventEngine.EventStateContainer
   alias Mars.Structures.Queue
+
+  @max_buffer_size 100_000
 
   @moduledoc """
   Events are pushed to the queue from EventController. 
@@ -26,7 +29,18 @@ defmodule Mars.EventEngine.EventCollector do
   initial state and dispatcher strategy
   """
   def init(:ok) do
-    {:producer, {Queue.new(), 0}, dispatcher: GenStage.DemandDispatcher}
+    state_from_agent = EventStateContainer.get(:event_collector_state)
+
+    state =
+      if is_nil(state_from_agent) do
+        {Queue.new(), 0}
+      else
+        {state_from_agent, 0}
+      end
+
+    IO.inspect("State from agent #{inspect(state)}")
+
+    {:producer, state, dispatcher: GenStage.DemandDispatcher, buffer_size: @max_buffer_size}
   end
 
   ## Callbacks
@@ -54,6 +68,16 @@ defmodule Mars.EventEngine.EventCollector do
     else
       {:noreply, [], {queue, 0}}
     end
+  end
+
+  @doc """
+    Makes sure that the state is saved before effectively
+    terminating the GenServer.
+  """
+  def terminate(_reason, state) do
+    IO.inspect("TERMINATE CALLED #{inspect(state)}")
+    EventStateContainer.put(:event_collector_state, state)
+    {:shutdown, state}
   end
 
   ## Public method

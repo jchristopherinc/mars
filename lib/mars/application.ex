@@ -43,10 +43,16 @@ defmodule Mars.Application do
         }
       end
 
+    # Starting Agents
+    Mars.EventEngine.EventStateContainer.start_link()
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Mars.Supervisor, max_restarts: 10]
-    Supervisor.start_link(children ++ event_aggregators ++ event_stores, opts)
+
+    supervisor_children = children ++ event_aggregators ++ event_stores
+
+    Supervisor.start_link(supervisor_children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration
