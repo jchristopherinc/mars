@@ -75,6 +75,7 @@ defmodule Mars.EventEngine.EventCollector do
     terminating the GenServer.
   """
   def terminate(_reason, state) do
+    IO.inspect "TERMINATE CALLED #{inspect state}"
     EventStateContainer.put(:event_collector_state, state)
     {:shutdown, state}
   end
