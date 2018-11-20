@@ -28,7 +28,7 @@
     </main>
     <footer>
       <p class="copyright">
-        <strong>M</strong>essage <strong>A</strong>cknowledgement & <strong>R</strong>eliability tracing <strong>S</strong>ervice
+        <strong>M</strong>essage |> <strong>A</strong>cknowledgement |> <strong>R</strong>eliability tracing |> <strong>S</strong>ervice
       </p>
     </footer>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
