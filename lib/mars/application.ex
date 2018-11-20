@@ -42,7 +42,7 @@ defmodule Mars.Application do
           start: {Mars.EventEngine.EventStore, :start_link, [{current_id, @max_event_stores}]}
         }
       end
-    
+
     # Starting Agents
     Mars.EventEngine.EventStateContainer.start_link()
 
