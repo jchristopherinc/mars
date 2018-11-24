@@ -78,7 +78,7 @@ if(window.userToken) {
       let eventTime = payload.time;
 
       let template = 
-      `<blockquote>
+      `<blockquote class="real-time-events">
         <div class="row">
           <div class="column">
             <strong>

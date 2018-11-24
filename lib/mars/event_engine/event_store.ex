@@ -68,7 +68,7 @@ defmodule Mars.EventEngine.EventStore do
 
   defp send_web_sockets(message_id, event_map) do
     event_map
-      |> Enum.each(&event_transform_and_send(&1, message_id))
+    |> Enum.each(&event_transform_and_send(&1, message_id))
   end
 
   defp event_transform_and_send(event, message_id) do
@@ -77,11 +77,10 @@ defmodule Mars.EventEngine.EventStore do
   end
 
   defp event_send(key, value, message_id) do
-
     {:ok, formatted_time} =
       value
       |> Timex.format("%H:%I:%M:%S:%L - %d / %b / %Y", :strftime)
- 
+
     event_for_websocket = %{
       "event" => key,
       "time" => formatted_time

@@ -18,3 +18,7 @@ p.copyright {
 .mb-40px {
   margin-bottom: 40px;
 }
+
+.real-time-events {
+  border-left: 0.3rem solid skyblue
+}
