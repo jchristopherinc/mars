@@ -1,6 +1,6 @@
 defmodule MarsWeb.TimeHelper do
   use Timex
-  
+
   def parse_time(time) do
     parsed_time = Timex.parse!(time, "{ISO:Extended:Z}")
 
