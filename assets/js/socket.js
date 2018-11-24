@@ -67,8 +67,32 @@ if(window.userToken) {
       .receive("ok", resp => { console.log("Joined successfully", resp) })
       .receive("error", resp => { console.log("Unable to join", resp) })
 
-    channel.on("change", resp => {
-      console.log("Change:", resp);
+    channel.on("add_to_timeline", payload => {
+      console.log("Event To Timeline:", payload);
+
+      // do DOM parsing and add events
+      //event time line
+      var $timeline = document.getElementById("event-timeline");
+
+      var eventName = payload.event;
+
+      var template = 
+      `<blockquote>
+        <div class="row">
+          <div class="column">
+            <strong>
+            ${eventName}
+            </strong>
+          </div>
+          <div class="column">
+            <em>
+          
+            </em>
+          </div>
+        </div>
+      </blockquote>`;
+
+      $timeline.append(template);
     })
   }
 

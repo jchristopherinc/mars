@@ -27,12 +27,16 @@ defmodule MarsWeb.EventTimelineChannel do
     {:noreply, socket}
   end
 
-  def broadcast_events(message_id) do
+  def broadcast_events(message_id, events) do
+    MarsWeb.Endpoint.broadcast("event_timeline:#{message_id}", "add_to_timeline", events) #events is already a map
+  end
+
+  def test_broadcast_events(message_id) do
     payload = %{
-      "payload" => "Event for #{message_id}"
+      "event" => "Event for #{message_id}"
     }
 
-    MarsWeb.Endpoint.broadcast("event_timeline:#{message_id}", "change", payload)
+    MarsWeb.Endpoint.broadcast("event_timeline:#{message_id}", "add_to_timeline", payload)
   end
 
   # Add authorization logic here as required.

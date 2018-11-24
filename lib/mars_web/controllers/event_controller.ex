@@ -145,7 +145,7 @@ defmodule MarsWeb.EventController do
     end
 
     # send test broadcast
-    EventTimelineChannel.broadcast_events(message_id)
+    EventTimelineChannel.test_broadcast_events(message_id)
 
     conn
     |> put_status(:ok)
