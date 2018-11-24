@@ -29,7 +29,7 @@ defmodule MarsWeb.Router do
 
     get "/", PageController, :index
     get "/status", StatusController, :get_status
-    post "/search/event", EventController, :list_events
+    get "/search/event/", EventController, :list_events
     get "/*path", PageController, :index
   end
 end

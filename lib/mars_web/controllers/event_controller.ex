@@ -53,9 +53,9 @@ defmodule MarsWeb.EventController do
     |> render("create_event.json")
   end
 
-  def list_events(conn, params) do
+  def list_events(conn, %{"message_id" => message_id}) do
     # dunno why I need to query it this way.. sucks..
-    message_id = params["messageId"]["messageId"]
+    # message_id = params["message_id"]
 
     if !is_nil(message_id) do
       message_with_event = Track.get_event_by_message_id(message_id)

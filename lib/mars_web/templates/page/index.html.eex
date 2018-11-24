@@ -7,14 +7,14 @@
 <section class="row">
   <article class="column">
     <h3>Search Message Lifecycle</h3>
-    <%= form_tag("/search/event") %>
+    <%= form_for @conn, Routes.event_path(@conn, :list_events), [method: :get], fn f -> %>
       <fieldset>
         <label for="messageId">Message ID</label>
-        <%= text_input :messageId, :messageId, value: "", placeholder: "d6ea02ea-4139-4262-9052-db3b99a47595", required: true %>
+        <%= text_input f, :message_id, value: "", placeholder: "d6ea02ea-4139-4262-9052-db3b99a47595", required: true %>
         <div>
           <input class="column button-primary" type="submit" value="Search">
         </div>
       </fieldset>
-    </form>
+    <% end %>
   </article>
 </section>
