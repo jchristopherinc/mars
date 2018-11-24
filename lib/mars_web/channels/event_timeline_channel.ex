@@ -18,12 +18,12 @@ defmodule MarsWeb.EventTimelineChannel do
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (event_timeline:*).
   def handle_in("shout", payload, socket) do
-    broadcast socket, "shout", payload
+    broadcast(socket, "shout", payload)
     {:noreply, socket}
   end
 
   def handle_out(event, payload, socket) do
-    push socket, event, payload
+    push(socket, event, payload)
     {:noreply, socket}
   end
 
@@ -31,9 +31,10 @@ defmodule MarsWeb.EventTimelineChannel do
     payload = %{
       "payload" => "Event for #{message_id}"
     }
+
     MarsWeb.Endpoint.broadcast("event_timeline:#{message_id}", "change", payload)
   end
-  
+
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true

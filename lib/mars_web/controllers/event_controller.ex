@@ -135,7 +135,6 @@ defmodule MarsWeb.EventController do
   end
 
   def test_event_timeline_socket(conn, params) do
-
     message_id = params["message_id"]
 
     if is_nil(message_id) do
@@ -144,7 +143,7 @@ defmodule MarsWeb.EventController do
       |> put_resp_header("content-type", "application/json")
       |> render("event_failure.json")
     end
-   
+
     # send test broadcast
     EventTimelineChannel.broadcast_events(message_id)
 
