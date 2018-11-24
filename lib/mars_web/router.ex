@@ -18,6 +18,7 @@ defmodule MarsWeb.Router do
     pipe_through :api
 
     get "/create_event", EventController, :test_create_event
+    get "/test_socket", EventController, :test_event_timeline_socket
     get "/q/stats", QueueStatusController, :get_status
 
     post "/event", EventController, :create_event

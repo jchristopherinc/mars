@@ -1,23 +1,30 @@
-<section class="row">
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.createSocket(<%= @message_id %>);
+  });
+</script>
+<section class="row mb-40px">
   <article class="column">
   <%= if @success do %>
-    <h4>Events for Message ID: <strong><%= @message_id %></strong> in App ID: <strong><%= @app_id %></strong></h4>
-    <%= for {event, time} <- @event do %>
-      <blockquote>
-        <div class="row">
-          <div class="column">
-            <strong>
-              <%= parse_event(event) %>
-            </strong> 
+    <div id="event-timeline">
+      <h4>Events for Message ID: <strong><%= @message_id %></strong> in App ID: <strong><%= @app_id %></strong></h4>
+      <%= for {event, time} <- @event do %>
+        <blockquote>
+          <div class="row">
+            <div class="column">
+              <strong>
+                <%= parse_event(event) %>
+              </strong> 
+            </div>
+            <div class="column">
+              <em>
+                <%= parse_time(time) %> 
+              </em>
+            </div>
           </div>
-          <div class="column">
-            <em>
-              <%= parse_time(time) %> 
-            </em>
-          </div>
-        </div>
-      </blockquote>
-    <% end %>
+        </blockquote>
+      <% end %>
+    </div>
   <% else %>
     <h4>No event found for MessageID: <strong><%= @message_id %></strong> in <em>M.A.R.S</em></h4>
     <div class="row">

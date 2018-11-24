@@ -8,8 +8,6 @@
 // from the params if you are not using authentication.
 import {Socket} from "phoenix"
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
-
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
 // which authenticates the session and assigns a `:current_user`.
@@ -52,12 +50,58 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 //     end
 //
 // Finally, connect to the socket:
-socket.connect()
 
-// Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+if(window.userToken) {
+  let socket = new Socket("/socket", {params: {token: window.userToken}})
 
-export default socket
+  socket.connect()
+
+  const createSocket = (topicId) => {
+
+    let channelName = "event_timeline:" + topicId;
+
+    // Now that you are connected, you can join channels with a topic:
+    let channel = socket.channel(channelName, {});
+
+    channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) });
+
+    channel.on("add_to_timeline", payload => {
+      console.log("Event To Timeline:", payload);
+
+      // do DOM parsing and add events
+      // event time line
+      let $timeline = document.getElementById("event-timeline");
+
+      let eventName = payload.event;
+      let eventTime = payload.time;
+
+      let template = 
+      `<blockquote class="real-time-events">
+        <div class="row">
+          <div class="column">
+            <strong>
+            ${eventName}
+            </strong>
+          </div>
+          <div class="column">
+            <em>
+            ${eventTime}
+            </em>
+          </div>
+        </div>
+      </blockquote>`;
+
+      // create virtual elements and push the template into the DOM
+      let updatedEvents = document.createElement('div');
+      updatedEvents.innerHTML = template;
+
+      while (updatedEvents.firstChild) {
+        $timeline.appendChild(updatedEvents.firstChild);
+      }
+    });
+  }
+
+  window.createSocket = createSocket;
+}

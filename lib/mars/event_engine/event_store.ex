@@ -2,6 +2,7 @@ defmodule Mars.EventEngine.EventStore do
   use GenStage
   require Logger
 
+  alias MarsWeb.EventTimelineChannel
   alias Mars.Track
 
   @moduledoc """
@@ -51,6 +52,9 @@ defmodule Mars.EventEngine.EventStore do
 
         # Push it to DB
         Track.upsert_event(msg_event)
+
+        # Broadcast it to Websockets
+        send_web_sockets(key, event_map)
       end)
     end)
 
@@ -60,5 +64,28 @@ defmodule Mars.EventEngine.EventStore do
 
   def create_map(val) do
     {val.event, val.created_at}
+  end
+
+  defp send_web_sockets(message_id, event_map) do
+    event_map
+    |> Enum.each(&event_transform_and_send(&1, message_id))
+  end
+
+  defp event_transform_and_send(event, message_id) do
+    {key, value} = event
+    event_send(key, value, message_id)
+  end
+
+  defp event_send(key, value, message_id) do
+    {:ok, formatted_time} =
+      value
+      |> Timex.format("%H:%I:%M:%S:%L - %d / %b / %Y", :strftime)
+
+    event_for_websocket = %{
+      "event" => key,
+      "time" => formatted_time
+    }
+
+    EventTimelineChannel.broadcast_events(message_id, event_for_websocket)
   end
 end
