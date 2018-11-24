@@ -28,7 +28,8 @@ defmodule Mars.EventEngine.EventCollector do
   initial state and dispatcher strategy
   """
   def init(:ok) do
-    {:producer, {Queue.new(), 0}, dispatcher: GenStage.DemandDispatcher, buffer_size: @max_buffer_size}
+    {:producer, {Queue.new(), 0},
+     dispatcher: GenStage.DemandDispatcher, buffer_size: @max_buffer_size}
   end
 
   ## Callbacks
