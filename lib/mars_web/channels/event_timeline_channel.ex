@@ -1,6 +1,10 @@
 defmodule MarsWeb.EventTimelineChannel do
   use MarsWeb, :channel
 
+  @moduledoc """
+  Realtime layer for updating events in Message - Event lifecycle page
+  """
+
   def join("event_timeline:" <> event_id, payload, socket) do
     if authorized?(payload) do
       {:ok, "event_timeline:#{event_id}", socket}

@@ -5,8 +5,8 @@ defmodule MarsWeb.EventController do
   require Logger
 
   alias Mars.EventEngine.EventCollector
-  alias MarsWeb.EventTimelineChannel
   alias Mars.Track
+  alias MarsWeb.EventTimelineChannel
 
   action_fallback(MarsWeb.FallbackController)
 

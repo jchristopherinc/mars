@@ -2,8 +2,8 @@ defmodule Mars.EventEngine.EventStore do
   use GenStage
   require Logger
 
-  alias MarsWeb.EventTimelineChannel
   alias Mars.Track
+  alias MarsWeb.EventTimelineChannel
 
   @moduledoc """
   Place to actually store Events into DB
