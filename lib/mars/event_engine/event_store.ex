@@ -52,7 +52,7 @@ defmodule Mars.EventEngine.EventStore do
         # Push it to DB
         Track.upsert_event(msg_event)
 
-        #Broadcast it to Websockets
+        # Broadcast it to Websockets
         EventTimelineChannel.broadcast_events(key, event_map)
       end)
     end)

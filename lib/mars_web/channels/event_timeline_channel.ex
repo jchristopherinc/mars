@@ -28,7 +28,8 @@ defmodule MarsWeb.EventTimelineChannel do
   end
 
   def broadcast_events(message_id, events) do
-    MarsWeb.Endpoint.broadcast("event_timeline:#{message_id}", "add_to_timeline", events) #events is already a map
+    # events is already a map
+    MarsWeb.Endpoint.broadcast("event_timeline:#{message_id}", "add_to_timeline", events)
   end
 
   def test_broadcast_events(message_id) do
