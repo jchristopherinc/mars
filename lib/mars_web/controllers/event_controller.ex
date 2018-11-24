@@ -105,8 +105,8 @@ defmodule MarsWeb.EventController do
       random_id = :rand.uniform(100_000)
 
       event = %{
-        app_id: 1,
-        message_id: 1 * 100,
+        app_id: random_id,
+        message_id: random_id * 100,
         event: random_event,
         created_at: Timex.now()
       }
