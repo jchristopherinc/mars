@@ -33,8 +33,13 @@ defmodule MarsWeb.EventTimelineChannel do
   end
 
   def test_broadcast_events(message_id) do
+
+    {:ok, time} = Timex.now()
+    |> Timex.format("%H:%I:%M:%S:%L - %d / %b / %Y", :strftime)
+
     payload = %{
-      "event" => "Event for #{message_id}"
+      "event" => "Event for #{message_id}",
+      "time" => time
     }
 
     MarsWeb.Endpoint.broadcast("event_timeline:#{message_id}", "add_to_timeline", payload)

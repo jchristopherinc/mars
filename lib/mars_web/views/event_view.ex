@@ -1,6 +1,7 @@
 defmodule MarsWeb.EventView do
   use MarsWeb, :view
-  use Timex
+
+  alias MarsWeb.TimeHelper
 
   @doc """
   Returns a static success response whenever a event is created.
@@ -18,13 +19,7 @@ defmodule MarsWeb.EventView do
   end
 
   def parse_time(time) do
-    parsed_time = Timex.parse!(time, "{ISO:Extended:Z}")
-
-    {:ok, formatted_time} =
-      parsed_time
-      |> Timex.format("%H:%I:%M:%S:%L - %d / %b / %Y", :strftime)
-
-    formatted_time
+    TimeHelper.parse_time(time)
   end
 
   def parse_event(event) do

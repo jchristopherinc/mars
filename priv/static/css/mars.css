@@ -2,6 +2,8 @@ footer {
   position: fixed;
   width: 100%;
   bottom:0; 
+  height: 70px;
+  background-color: white;
 }
 
 p.copyright {
@@ -11,4 +13,8 @@ p.copyright {
   font-size: 0.7em;
   text-align: center;
   bottom:0;
+}
+
+.mb-40px {
+  margin-bottom: 40px;
 }

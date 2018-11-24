@@ -3,7 +3,7 @@
     window.createSocket(<%= @message_id %>);
   });
 </script>
-<section class="row">
+<section class="row mb-40px">
   <article class="column">
   <%= if @success do %>
     <div id="event-timeline">

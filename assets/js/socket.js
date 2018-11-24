@@ -61,22 +61,23 @@ if(window.userToken) {
     let channelName = "event_timeline:" + topicId;
 
     // Now that you are connected, you can join channels with a topic:
-    let channel = socket.channel(channelName, {})
+    let channel = socket.channel(channelName, {});
 
     channel.join()
       .receive("ok", resp => { console.log("Joined successfully", resp) })
-      .receive("error", resp => { console.log("Unable to join", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) });
 
     channel.on("add_to_timeline", payload => {
       console.log("Event To Timeline:", payload);
 
       // do DOM parsing and add events
-      //event time line
-      var $timeline = document.getElementById("event-timeline");
+      // event time line
+      let $timeline = document.getElementById("event-timeline");
 
-      var eventName = payload.event;
+      let eventName = payload.event;
+      let eventTime = payload.time;
 
-      var template = 
+      let template = 
       `<blockquote>
         <div class="row">
           <div class="column">
@@ -86,14 +87,20 @@ if(window.userToken) {
           </div>
           <div class="column">
             <em>
-          
+            ${eventTime}
             </em>
           </div>
         </div>
       </blockquote>`;
 
-      $timeline.append(template);
-    })
+      // create virtual elements and push the template into the DOM
+      let updatedEvents = document.createElement('div');
+      updatedEvents.innerHTML = template;
+
+      while (updatedEvents.firstChild) {
+        $timeline.appendChild(updatedEvents.firstChild);
+      }
+    });
   }
 
   window.createSocket = createSocket;
