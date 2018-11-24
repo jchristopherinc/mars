@@ -3,6 +3,7 @@ defmodule MarsWeb.UserSocket do
 
   ## Channels
   # channel "room:*", MarsWeb.RoomChannel
+  channel "event_timeline:*", MarsWeb.EventTimelineChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

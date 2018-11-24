@@ -11,6 +11,12 @@ defmodule MarsWeb.EventView do
     }
   end
 
+  def render("event_failure.json", _) do
+    %{
+      success: false
+    }
+  end
+
   def parse_time(time) do
     parsed_time = Timex.parse!(time, "{ISO:Extended:Z}")
 

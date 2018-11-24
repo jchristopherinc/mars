@@ -5,6 +5,7 @@ defmodule MarsWeb.EventController do
   require Logger
 
   alias Mars.EventEngine.EventCollector
+  alias MarsWeb.EventTimelineChannel
   alias Mars.Track
 
   action_fallback(MarsWeb.FallbackController)
@@ -126,6 +127,26 @@ defmodule MarsWeb.EventController do
 
       EventCollector.enqueue(event)
     end
+
+    conn
+    |> put_status(:ok)
+    |> put_resp_header("content-type", "application/json")
+    |> render("create_event.json")
+  end
+
+  def test_event_timeline_socket(conn, params) do
+
+    message_id = params["message_id"]
+
+    if is_nil(message_id) do
+      conn
+      |> put_status(:bad_request)
+      |> put_resp_header("content-type", "application/json")
+      |> render("event_failure.json")
+    end
+   
+    # send test broadcast
+    EventTimelineChannel.broadcast_events(message_id)
 
     conn
     |> put_status(:ok)

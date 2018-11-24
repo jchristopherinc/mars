@@ -1,3 +1,8 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.createSocket(<%= @message_id %>);
+  });
+</script>
 <section class="row">
   <article class="column">
   <%= if @success do %>

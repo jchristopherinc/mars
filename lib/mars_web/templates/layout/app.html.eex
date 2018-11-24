@@ -7,6 +7,9 @@
     <title>Mars · Message Acknowledgement and Reliability tracing Service</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/mars.css") %>"/>
+    <script>
+      window.userToken = "123";
+    </script>
   </head>
   <body>
     <header>
