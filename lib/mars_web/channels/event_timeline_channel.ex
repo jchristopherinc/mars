@@ -43,8 +43,9 @@ defmodule MarsWeb.EventTimelineChannel do
 
     key = "Event for #{message_id}"
 
-    event_key = key
-      |> String.upcase
+    event_key =
+      key
+      |> String.upcase()
       |> String.replace("_", " ")
 
     payload = %{
