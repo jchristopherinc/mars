@@ -89,7 +89,7 @@ defmodule Mars.EventEngine.EventStore do
   @doc """
   Creates the payload, and sends events to Websocket.
   """
-  defp event_send(key, value, message_id) do    
+  defp event_send(key, value, message_id) do
     formatted_time = TimeHelper.mars_formatted_time(value)
 
     event_key =

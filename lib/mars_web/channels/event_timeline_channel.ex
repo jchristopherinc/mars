@@ -56,7 +56,6 @@ defmodule MarsWeb.EventTimelineChannel do
   A test method to broadcast test events to any message_id
   """
   def test_broadcast_events(message_id) do
-    
     time = TimeHelper.mars_formatted_time(Timex.now())
 
     key = "Test Event for #{message_id}"
