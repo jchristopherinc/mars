@@ -56,7 +56,7 @@ if(window.userToken) {
 
   socket.connect()
 
-  const createSocket = (topicId) => {
+  const eventTimelineSocket = (topicId) => {
 
     let channelName = "event_timeline:" + topicId;
 
@@ -68,40 +68,45 @@ if(window.userToken) {
       .receive("error", resp => { console.log("Unable to join", resp) });
 
     channel.on("add_to_timeline", payload => {
-      console.log("Event To Timeline:", payload);
+      if(payload && payload.event && payload.time) {
+        console.log("Event To Timeline:", payload);
 
-      // do DOM parsing and add events
-      // event time line
-      let $timeline = document.getElementById("event-timeline");
+        // do DOM parsing and add events
+        // event time line
+        let $timeline = document.getElementById("event-timeline");
 
-      let eventName = payload.event;
-      let eventTime = payload.time;
+        let eventName = payload.event;
+        let eventTime = payload.time;
 
-      let template = 
-      `<blockquote class="real-time-events">
-        <div class="row">
-          <div class="column">
-            <strong>
-            ${eventName}
-            </strong>
+        // build the template
+        let template = 
+        `<blockquote class="real-time-events">
+          <div class="row">
+            <div class="column">
+              <strong>
+              ${eventName}
+              </strong>
+            </div>
+            <div class="column">
+              <em>
+              ${eventTime}
+              </em>
+            </div>
           </div>
-          <div class="column">
-            <em>
-            ${eventTime}
-            </em>
-          </div>
-        </div>
-      </blockquote>`;
+        </blockquote>`;
 
-      // create virtual elements and push the template into the DOM
-      let updatedEvents = document.createElement('div');
-      updatedEvents.innerHTML = template;
+        // create virtual elements and set template to innerHTML
+        let updatedEvents = document.createElement('div');
+        updatedEvents.innerHTML = template;
 
-      while (updatedEvents.firstChild) {
-        $timeline.appendChild(updatedEvents.firstChild);
+        // push the template into the DOM
+        while (updatedEvents.firstChild) {
+          $timeline.appendChild(updatedEvents.firstChild);
+        }
       }
     });
   }
 
-  window.createSocket = createSocket;
+  // set the Socket
+  window.eventTimelineSocket = eventTimelineSocket;
 }

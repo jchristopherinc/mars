@@ -4,6 +4,7 @@ defmodule Mars.EventEngine.EventStore do
 
   alias Mars.Track
   alias MarsWeb.EventTimelineChannel
+  alias MarsWeb.TimeHelper
 
   @moduledoc """
   Place to actually store Events into DB
@@ -62,24 +63,34 @@ defmodule Mars.EventEngine.EventStore do
     {:noreply, [], state}
   end
 
+  @doc """
+  Create a HashMap of event and created_at from overall event map, for storing it as JSON
+  """
   def create_map(val) do
     {val.event, val.created_at}
   end
 
+  @doc """
+  Iterates over event_map for event transformation
+  """
   defp send_web_sockets(message_id, event_map) do
     event_map
     |> Enum.each(&event_transform_and_send(&1, message_id))
   end
 
+  @doc """
+  Extracts key and value for each event in event_map and calls event_send
+  """
   defp event_transform_and_send(event, message_id) do
     {key, value} = event
     event_send(key, value, message_id)
   end
 
-  defp event_send(key, value, message_id) do
-    {:ok, formatted_time} =
-      value
-      |> Timex.format("%H:%I:%M:%S:%L - %d / %b / %Y", :strftime)
+  @doc """
+  Creates the payload, and sends events to Websocket.
+  """
+  defp event_send(key, value, message_id) do    
+    formatted_time = TimeHelper.mars_formatted_time(value)
 
     event_key =
       key

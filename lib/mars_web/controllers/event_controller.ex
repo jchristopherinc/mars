@@ -134,9 +134,13 @@ defmodule MarsWeb.EventController do
     |> render("create_event.json")
   end
 
+  @doc """
+  A test end point to create message lifecycle events for any message_id and push it to Websocket
+  """
   def test_event_timeline_socket(conn, params) do
     message_id = params["message_id"]
 
+    # validate input
     if is_nil(message_id) do
       conn
       |> put_status(:bad_request)
@@ -147,6 +151,7 @@ defmodule MarsWeb.EventController do
     # send test broadcast
     EventTimelineChannel.test_broadcast_events(message_id)
 
+    # send reply to the API
     conn
     |> put_status(:ok)
     |> put_resp_header("content-type", "application/json")
