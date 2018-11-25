@@ -81,8 +81,12 @@ defmodule Mars.EventEngine.EventStore do
       value
       |> Timex.format("%H:%I:%M:%S:%L - %d / %b / %Y", :strftime)
 
+    event_key = key
+      |> String.upcase
+      |> String.replace("_", " ")
+
     event_for_websocket = %{
-      "event" => key,
+      "event" => event_key,
       "time" => formatted_time
     }
 

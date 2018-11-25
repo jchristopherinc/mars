@@ -41,8 +41,14 @@ defmodule MarsWeb.EventTimelineChannel do
       Timex.now()
       |> Timex.format("%H:%I:%M:%S:%L - %d / %b / %Y", :strftime)
 
+    key = "Event for #{message_id}"
+
+    event_key = key
+      |> String.upcase
+      |> String.replace("_", " ")
+
     payload = %{
-      "event" => "Event for #{message_id}",
+      "event" => event_key,
       "time" => time
     }
 
