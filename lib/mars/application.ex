@@ -21,7 +21,11 @@ defmodule Mars.Application do
       # Starting links to our EventEngine GenStages
       %{
         id: EventCollector,
-        start: {Mars.EventEngine.EventCollector, :start_link, []}
+        start: {
+          Mars.EventEngine.EventCollector,
+          :start_link,
+          []
+        }
       }
     ]
 
@@ -29,7 +33,11 @@ defmodule Mars.Application do
       for id <- 1..@max_event_aggregators do
         %{
           id: "Elixir.Mars.EventEngine.EventAggregator:#{id}",
-          start: {Mars.EventEngine.EventAggregator, :start_link, [id]}
+          start: {
+            Mars.EventEngine.EventAggregator,
+            :start_link,
+            [id]
+          }
         }
       end
 
@@ -39,7 +47,16 @@ defmodule Mars.Application do
 
         %{
           id: "EventStore:#{current_id}",
-          start: {Mars.EventEngine.EventStore, :start_link, [{current_id, @max_event_stores}]}
+          start: {
+            Mars.EventEngine.EventStore,
+            :start_link,
+            [
+              {
+                current_id,
+                @max_event_stores
+              }
+            ]
+          }
         }
       end
 
