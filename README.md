@@ -63,22 +63,24 @@ You can set the number of events created during each time we hit https://localho
 
 I've used `wrk` to generate load.
 
-Sample command
+Run `mars` in prod mode `MIX_ENV=prod mix phx.server`
 
-`wrk -t20 -c20 -d10s https://localhost:4001/api/create_event`
+Sample `wrk` command
+
+`wrk -t1 -c1 -d10s http://localhost:4000/api/create_event`
 
 Sample result
 
 ```
-wrk -t20 -c40 -d10s https://localhost:4001/api/create_event
-Running 10s test @ https://localhost:4001/api/create_event
-  20 threads and 40 connections
+wrk -t1 -c1 -d10s http://localhost:4000/api/create_event
+Running 10s test @ http://localhost:4000/api/create_event
+  1 threads and 1 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    35.87ms   12.42ms 114.32ms   72.52%
-    Req/Sec    55.73     12.56    90.00     62.63%
-  11170 requests in 10.10s, 2.47MB read
-Requests/sec:   1105.89
-Transfer/sec:    250.70KB
+    Latency     1.24ms    5.18ms  78.07ms   98.33%
+    Req/Sec     1.54k   206.74     1.88k    81.00%
+  15316 requests in 10.01s, 3.39MB read
+Requests/sec:   1529.59
+Transfer/sec:    346.83KB
 ```
 
 ## Installation steps
