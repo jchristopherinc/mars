@@ -71,8 +71,6 @@ defmodule Mars.EventEngine.EventCollector do
 
     collector_stage = :"EventCollector:#{rand_genstage_id}"
 
-    IO.inspect(collector_stage)
-
     GenStage.cast(collector_stage, {:enqueue, event})
   end
 
