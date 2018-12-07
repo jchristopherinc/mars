@@ -6,6 +6,7 @@ defmodule Mars.EventEngine.EventCollector do
   alias Mars.Structures.Queue
 
   @max_buffer_size 100_000
+  @max_event_collectors 10
 
   @moduledoc """
   Events are pushed to the queue from EventController. 
@@ -19,8 +20,9 @@ defmodule Mars.EventEngine.EventCollector do
   @doc """
   Genstage start link. Used by Application supervisor to start the genstage
   """
-  def start_link do
-    GenStage.start_link(__MODULE__, :ok, name: __MODULE__)
+  def start_link(id) do
+    name = :"EventCollector:#{id}"
+    GenStage.start_link(__MODULE__, :ok, name: name)
   end
 
   @doc """
@@ -65,7 +67,14 @@ defmodule Mars.EventEngine.EventCollector do
   Public method to push events to EventCollector
   """
   def enqueue(event) do
-    GenStage.cast(__MODULE__, {:enqueue, event})
+
+    rand_genstage_id = :rand.uniform(@max_event_collectors)
+
+    collector_stage = :"EventCollector:#{rand_genstage_id}"
+
+    IO.inspect collector_stage
+
+    GenStage.cast(collector_stage, {:enqueue, event})
   end
 
   ## Private methods

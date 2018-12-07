@@ -26,7 +26,7 @@ defmodule Mars.EventEngine.EventStore do
   def init({:ok, subscribers}) do
     producers =
       for id <- 1..subscribers do
-        {:"Elixir.Mars.EventEngine.EventAggregator:#{id}", min_demand: 1_000, max_demand: 2_000}
+        {:"EventAggregator:#{id}", min_demand: 1_000, max_demand: 2_000}
       end
 
     {:consumer, :ok, subscribe_to: producers}
