@@ -39,8 +39,7 @@ defmodule Mars.EventEngine.EventAggregator do
 
     state = %{batch_size: batch_size, interval: interval}
 
-    producer =
-        {:"EventCollector:#{id}", min_demand: 1_000, max_demand: 2_000}
+    producer = {:"EventCollector:#{id}", min_demand: 1_000, max_demand: 2_000}
 
     {:producer_consumer, state, subscribe_to: [producer]}
   end

@@ -67,12 +67,11 @@ defmodule Mars.EventEngine.EventCollector do
   Public method to push events to EventCollector
   """
   def enqueue(event) do
-
     rand_genstage_id = :rand.uniform(@max_event_collectors)
 
     collector_stage = :"EventCollector:#{rand_genstage_id}"
 
-    IO.inspect collector_stage
+    IO.inspect(collector_stage)
 
     GenStage.cast(collector_stage, {:enqueue, event})
   end

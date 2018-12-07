@@ -43,7 +43,7 @@ defmodule Mars.Application do
             Mars.EventEngine.EventAggregator,
             :start_link,
             [
-                id
+              id
             ]
           }
         }
