@@ -65,7 +65,7 @@ https://localhost:4001/api/test_socket?message_id=5250000 - End point to generat
 
 https://localhost:4001/status - Service health check
 
-https://localhost:4001/api/q/stats - Queue statistics page (currently not working. Will be fixed)
+https://localhost:4001/api/q/stats - Queue statistics page
 
 ## Stress testing
 

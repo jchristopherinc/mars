@@ -20,7 +20,7 @@ defmodule Mars.MixProject do
   def application do
     [
       mod: {Mars.Application, []},
-      extra_applications: [:logger, :runtime_tools, :timex]
+      extra_applications: [:logger, :runtime_tools, :timex, :con_cache]
     ]
   end
 
@@ -45,6 +45,7 @@ defmodule Mars.MixProject do
       {:gen_stage, "~> 0.14.1"},
       {:timex, "~> 3.4"},
       {:plug_cowboy, "~> 2.0"},
+      {:con_cache, "~> 0.13.0"},
 
       # -----dev dependencies below this-----
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
