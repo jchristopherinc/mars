@@ -2,23 +2,23 @@
 
 ## Problem Statement
 
-Tracking data across different data stores and deliverability across multiple clients is hard. I wanted to have a single dashboard where I can see all the messages (tracked by a unique `message_id`) and all events emitted by each of the message in it's lifecycle. 
+Tracking data across different services and tracking acknowledgement across multiple clients is hard. I wanted to have a single dashboard where I can see all the messages (tracked by a unique `message_id`) and all events emitted by each of the message at various stages of it's lifecycle.
 
 The events are processed as mentioned in Event Engine flow 👇 below. You can track the life cycle of your data based on the missing events.
 
 ## Event Engine flow
 
-This has an Event engine with 3 pipelines
+Event engine has 3 pipelines
 
-```
-EventCollector
-EventAggregator
-EventStore
-```
+* EventCollector
+* EventAggregator
+* EventStore
 
 **EventCollector**
 
-Event Collector will be a FIFO Queue to receive all events from HTTP End points/External message brokers to put into our FIFO Queue inside Elixir's GenStage.
+Event Collector is a FIFO Queue to receive all events from HTTP End points or External message brokers to put into our FIFO Queue inside Elixir's GenStage.
+
+We create 10 EventCollectors during application start.
 
 **EventAggregator**
 
@@ -26,9 +26,17 @@ Event Aggregator GenStage will periodically poll *EventCollector* with a pre-def
 
 For eg., in a batch of 10, say message ID `a` has 3 events all of them will be batched together and made as a single entry with array of events as it's value. 
 
+We create 10 EventAggregators which will be subscribed to one EventCollector each.
+
 **EventStore**
 
-Event Store, stores events into a persistent storage. It will do an upsert based on the unique messageID. 
+Event Store stores events into a persistent storage. It will do an upsert based on the unique messageID. 
+
+We create 10 EventStores for each EventCollector instance, so as to parallelize storage layer.
+
+## Websockets
+
+We have a thin websocket layer to show updates to a messageId in real time. Messages to Websockets are emitted during *EventStore*. 
 
 ## Event Structure
 
@@ -47,15 +55,17 @@ Sample event payload
 
 Expose HTTP End points `/api/create_event` to trigger events from external systems.
 
-*TODO*: Add support for Message brokers later
+*TODO*: Add support for Message brokers.
 
 ## For testing in dev environment
 
-https://localhost:4001/api/create_event - End point to generate test random events
+https://localhost:4001/api/create_event - End point to generate random events for test
+
+https://localhost:4001/api/test_socket?message_id=5250000 - End point to generate random events for a messageId to test if it appears through websockets
 
 https://localhost:4001/status - Service health check
 
-https://localhost:4001/api/q/stats - Queue statistics page
+https://localhost:4001/api/q/stats - Queue statistics page (currently not working. Will be fixed)
 
 ## Stress testing
 
@@ -83,9 +93,9 @@ Requests/sec:   9048.61
 Transfer/sec:      2.00MB
 ```
 
-It's over 9000!
+It's over **9000**!
 
-Note: I got around 9k req/s for a couple of times. Most other times 8k req/s seemed fine :) Don't take benchmarks seriously
+*Note*: I got around 9k req/s for a couple of times. Most other times 8k req/s seemed fine :) Don't take benchmarks seriously
 
 ## Installation steps
 
