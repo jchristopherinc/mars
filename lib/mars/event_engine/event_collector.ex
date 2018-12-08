@@ -42,8 +42,7 @@ defmodule Mars.EventEngine.EventCollector do
   def handle_cast({:enqueue, event}, {queue, pending_demand}) do
     updated_queue = Queue.insert(queue, event)
 
-    ConCache.update(:mars_cache, :q_length, fn(old_value) ->
-
+    ConCache.update(:mars_cache, :q_length, fn old_value ->
       new_value =
         if is_nil(old_value) do
           1
@@ -96,7 +95,7 @@ defmodule Mars.EventEngine.EventCollector do
     if is_nil(extracted_events) do
       {:noreply, events, {queue, demand}}
     else
-      ConCache.update(:mars_cache, :q_length, fn(old_value) ->
+      ConCache.update(:mars_cache, :q_length, fn old_value ->
         new_value = Queue.length(updated_queue)
         {:ok, new_value}
       end)
