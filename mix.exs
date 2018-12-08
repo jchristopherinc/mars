@@ -44,7 +44,6 @@ defmodule Mars.MixProject do
       {:jason, "~> 1.0"},
       {:gen_stage, "~> 0.14.1"},
       {:timex, "~> 3.4"},
-      {:fastglobal, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
 
       # -----dev dependencies below this-----

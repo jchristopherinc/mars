@@ -42,9 +42,6 @@ defmodule Mars.EventEngine.EventCollector do
   def handle_cast({:enqueue, event}, {queue, pending_demand}) do
     updated_queue = Queue.insert(queue, event)
 
-    q_length = Queue.length(updated_queue)
-    FastGlobal.put(:event_collector_q_length, q_length)
-
     dispatch_events(updated_queue, pending_demand, [])
   end
 
@@ -87,7 +84,6 @@ defmodule Mars.EventEngine.EventCollector do
     if is_nil(extracted_events) do
       {:noreply, events, {queue, demand}}
     else
-      FastGlobal.put(:event_collector_q_length, Queue.length(updated_queue))
       dispatch_events(updated_queue, 0, extracted_events)
     end
   end
@@ -97,6 +93,6 @@ defmodule Mars.EventEngine.EventCollector do
   end
 
   def queue_length do
-    FastGlobal.get(:event_collector_q_length)
+    0
   end
 end
