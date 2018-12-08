@@ -86,11 +86,11 @@ wrk -t20 -c20 -d10s http://localhost:4000/api/create_event
 Running 10s test @ http://localhost:4000/api/create_event
   20 threads and 20 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     3.29ms    7.05ms 129.85ms   96.28%
-    Req/Sec   454.80    109.62     1.07k    74.40%
-  90682 requests in 10.02s, 20.08MB read
-Requests/sec:   9048.61
-Transfer/sec:      2.00MB
+    Latency     3.52ms    6.30ms  72.30ms   93.52%
+    Req/Sec   477.54    136.39     1.05k    76.95%
+  95209 requests in 10.03s, 21.08MB read
+Requests/sec:   9496.53
+Transfer/sec:      2.10MB
 ```
 
 It's over **9000**!
