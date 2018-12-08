@@ -83,6 +83,10 @@ Requests/sec:   9048.61
 Transfer/sec:      2.00MB
 ```
 
+It's over 9000!
+
+Note: I got around 9k req/s for a couple of times. Most other times 8k req/s seemed fine :) Don't take benchmarks seriously
+
 ## Installation steps
 
 To start your Phoenix server:
