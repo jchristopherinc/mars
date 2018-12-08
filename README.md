@@ -2,7 +2,7 @@
 
 ## Problem Statement
 
-Tracking data across different services and tracking acknowledgement across multiple clients is hard. I wanted to have a single dashboard where I can see all the messages (tracked by a unique `message_id`) and all events emitted by each of the message at various stages of it's lifecycle.
+Tracking data across different services and tracking acknowledgement across multiple clients is hard. I wanted to have a single dashboard where I can see all the messages (tracked by a unique `message_id`) and all events emitted by each message during different stages in it's lifecycle.
 
 The events are processed as mentioned in Event Engine flow 👇 below. You can track the life cycle of your data based on the missing events.
 
