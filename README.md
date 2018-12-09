@@ -79,23 +79,23 @@ Sample `wrk` command
 
 `wrk -t1 -c1 -d10s http://localhost:4000/api/create_event`
 
-Sample result
+**Sample result**
 
 ```
 wrk -t20 -c20 -d10s http://localhost:4000/api/create_event
 Running 10s test @ http://localhost:4000/api/create_event
   20 threads and 20 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     3.52ms    6.30ms  72.30ms   93.52%
-    Req/Sec   477.54    136.39     1.05k    76.95%
-  95209 requests in 10.03s, 21.08MB read
-Requests/sec:   9496.53
-Transfer/sec:      2.10MB
+    Latency     2.29ms    2.70ms  60.49ms   94.22%
+    Req/Sec   517.54     81.16     1.04k    73.65%
+  103177 requests in 10.02s, 22.85MB read
+Requests/sec:  10293.71
+Transfer/sec:      2.28MB
 ```
 
-It's over **9000**!
+It's over **9000** 	`\( ﾟヮﾟ)/`
 
-*Note*: I got around 9k req/s for a couple of times. Most other times 8k req/s seemed fine :) Don't take benchmarks seriously
+*Note*: I got around >9k req/s for a couple of times. Most other times ~8k req/s +/- 500 req/s seemed fine for my use case :) Don't take benchmarks seriously. Also it wasn't benchmarked in Cloud. Done from my MBP.
 
 ## Installation steps
 
