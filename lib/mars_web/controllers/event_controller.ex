@@ -102,7 +102,7 @@ defmodule MarsWeb.EventController do
 
       random_event = Map.get(event_map, random_num)
 
-      random_id = :rand.uniform(100_000)
+      random_id = :rand.uniform(100_000_000)
 
       event = %{
         app_id: random_id,
