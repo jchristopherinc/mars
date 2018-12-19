@@ -26,7 +26,7 @@ defmodule Mars.EventEngine.EventAggregator do
   Starts a permanent subscription to upstream Mars.EventEngine.EventCollector
   which will automatically start requesting items.
 
-  Gets events in batch_size of 10 and periodically for every 10 seconds
+  Gets events in batches of size 1000 events every 1 second and aggregates it by message_id
   """
   def init({:ok, id}) do
     batch_size = 1_000
