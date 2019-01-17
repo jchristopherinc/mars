@@ -10,6 +10,8 @@ defmodule MarsWeb.EventController do
 
   action_fallback(MarsWeb.FallbackController)
 
+  @max_generate_test_events 1
+
   @moduledoc """
   EventController to expose APIs for public consumption
   """
@@ -120,7 +122,7 @@ defmodule MarsWeb.EventController do
 
     event_map_len = event_map |> map_size
 
-    for i <- 1..1 do
+    for i <- 1..@max_generate_test_events do
       random_num = :rand.uniform(event_map_len)
 
       random_event = Map.get(event_map, random_num)
