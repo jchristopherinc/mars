@@ -40,14 +40,27 @@ We have a thin websocket layer to show updates to a messageId in real time. Mess
 
 ## Event Structure
 
-Sample event payload
+Sample single event payload
 
+```json
+{
+  "app_id": "<string>",
+  "message_id": "<string>",
+  "event": "<string>",
+  "created_at": "<utc_timestamp>"
+}
 ```
-%{
-  app_id: <string>,
-  message_id: <string>,
-  event: <string>,
-  created_at: <utc_timestamp>
+
+Sample bulk event payload
+
+```json
+{
+  "events": [{
+    "app_id": "<string>",
+    "message_id": "<string>",
+    "event": "<string>",
+    "created_at": "<utc_timestamp>"
+  }]
 }
 ```
 

@@ -17,7 +17,7 @@ defmodule MarsWeb.EventController do
   # Public API
 
   @doc """
-  A public metbod to accept events from API and enqueue it to EventCollector Genstage
+  A public metbod to accept event from different systems/agent and enqueue it to EventCollector Genstage
 
   Returns HTTP Status code 200
   """
@@ -45,7 +45,7 @@ defmodule MarsWeb.EventController do
       Map.put(event, :external_id, external_id)
     end
 
-    # enqueue event into the event queue
+    # enqueue event into the event collector
     EventCollector.enqueue(event)
 
     conn
@@ -54,10 +54,36 @@ defmodule MarsWeb.EventController do
     |> render("create_event.json")
   end
 
-  def list_events(conn, %{"message_id" => message_id}) do
-    # dunno why I need to query it this way.. sucks..
-    # message_id = params["message_id"]
+  @doc """
+  A public metbod to accept bulk events from different systems/agent and enqueue it to EventCollector Genstage
+  """
+  def create_events(conn, %{"events" => events}) do
+    
+    Enum.each(events, fn event -> 
 
+      event_to_enqueue = %{
+        app_id: event.app_id,
+        message_id: event.message_id,
+        event: event.event,
+        created_at: event.created_at,
+        external_id: event.external_id
+      }
+  
+      # enqueue event into the event collector
+      EventCollector.enqueue(event_to_enqueue)
+
+    end)
+
+    conn
+    |> put_status(:ok)
+    |> put_resp_header("content-type", "application/json")
+    |> render("create_event.json")
+  end
+
+  @doc """
+  A public method to get list of events based on message_id
+  """
+  def list_events(conn, %{"message_id" => message_id}) do
     if !is_nil(message_id) do
       message_with_event = Track.get_event_by_message_id(message_id)
 

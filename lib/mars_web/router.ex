@@ -22,6 +22,7 @@ defmodule MarsWeb.Router do
     get "/q/stats", QueueStatusController, :get_status
 
     post "/event", EventController, :create_event
+    post "/event/bulk", EventController, :create_events
   end
 
   # HTML
