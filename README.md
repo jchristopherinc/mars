@@ -1,5 +1,7 @@
 # Mars
 
+Message |> Acknowledgement |> Reliability tracing |> Service
+
 ## Problem Statement
 
 Tracking data across different services and tracking acknowledgement across multiple clients is hard. I wanted to have a single dashboard where I can see all the messages (tracked by a unique `message_id`) and all events emitted by each message during different stages in it's lifecycle.
@@ -99,11 +101,11 @@ wrk -t20 -c20 -d10s http://localhost:4000/api/create_event
 Running 10s test @ http://localhost:4000/api/create_event
   20 threads and 20 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     2.29ms    2.70ms  60.49ms   94.22%
-    Req/Sec   517.54     81.16     1.04k    73.65%
-  103177 requests in 10.02s, 22.85MB read
-Requests/sec:  10293.71
-Transfer/sec:      2.28MB
+    Latency     4.35ms    8.09ms 186.29ms   89.78%
+    Req/Sec   550.54    202.59     1.17k    65.03%
+  109937 requests in 10.05s, 24.34MB read
+Requests/sec:  10935.14
+Transfer/sec:      2.42MB
 ```
 
 It's over **9000** 	`\( ﾟヮﾟ)/`
