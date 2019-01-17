@@ -58,9 +58,7 @@ defmodule MarsWeb.EventController do
   A public metbod to accept bulk events from different systems/agent and enqueue it to EventCollector Genstage
   """
   def create_events(conn, %{"events" => events}) do
-    
-    Enum.each(events, fn event -> 
-
+    Enum.each(events, fn event ->
       event_to_enqueue = %{
         app_id: event.app_id,
         message_id: event.message_id,
@@ -68,10 +66,9 @@ defmodule MarsWeb.EventController do
         created_at: event.created_at,
         external_id: event.external_id
       }
-  
+
       # enqueue event into the event collector
       EventCollector.enqueue(event_to_enqueue)
-
     end)
 
     conn
