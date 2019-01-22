@@ -18,9 +18,6 @@ defmodule Mars.Application do
       MarsWeb.Endpoint,
       # Starts a worker by calling: Mars.Worker.start_link(arg)
       # {Mars.Worker, arg}
-
-      # ConCache
-      {ConCache, [name: :mars_cache, ttl_check_interval: false]}
     ]
 
     # Starting links to our EventEngine GenStages
