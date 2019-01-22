@@ -15,7 +15,7 @@ defmodule Mars.Application do
       # Start the Ecto repository
       Mars.Repo,
       # Start the endpoint when the application starts
-      MarsWeb.Endpoint,
+      MarsWeb.Endpoint
       # Starts a worker by calling: Mars.Worker.start_link(arg)
       # {Mars.Worker, arg}
     ]
