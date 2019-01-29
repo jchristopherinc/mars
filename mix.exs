@@ -45,6 +45,7 @@ defmodule Mars.MixProject do
       {:gen_stage, "~> 0.14.1"},
       {:timex, "~> 3.4"},
       {:plug_cowboy, "~> 2.0"},
+      {:quantum, "~> 2.3"},
 
       # -----dev dependencies below this-----
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
