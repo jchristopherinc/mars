@@ -7,12 +7,10 @@ defmodule Mars.EventCleanup do
   Clean up junk events that are X weeks old
   """
   def start_cleanup do
-    
-    Logger.debug "____Starting old lifecycle events cleanup____"
-    
-    Track.delete_old_events
-    
-    Logger.debug "____Old lifecycle events cleanup completed____" 
+    Logger.debug("____Starting old lifecycle events cleanup____")
 
+    Track.delete_old_events()
+
+    Logger.debug("____Old lifecycle events cleanup completed____")
   end
 end

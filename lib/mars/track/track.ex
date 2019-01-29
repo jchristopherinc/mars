@@ -54,7 +54,7 @@ defmodule Mars.Track do
   Delete older messages and it's lifecycle events
   """
   def delete_old_events do
-    from(e in Event, where: e.inserted_at < datetime_add(^NaiveDateTime.utc_now, -2, "week"))
-    |> Repo.delete_all
+    from(e in Event, where: e.inserted_at < datetime_add(^NaiveDateTime.utc_now(), -2, "week"))
+    |> Repo.delete_all()
   end
 end
