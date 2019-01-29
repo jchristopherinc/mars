@@ -42,10 +42,10 @@ config :git_hooks,
 # Configure Scheduler here
 config :mars, Mars.Scheduler,
   jobs: [
-    # Every minute
+    # Every day at 00:00
     event_cleanup: [
       overlap: false,
-      schedule: "0 00 * * *",
+      schedule: "@daily",
       task: {
         Mars.EventCleanup,
         :start_cleanup,
