@@ -1,4 +1,4 @@
 defmodule Mars.Scheduler do
   use Quantum.Scheduler,
-    otp_app: :mars_scheduler
+    otp_app: :mars
 end

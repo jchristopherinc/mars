@@ -40,12 +40,12 @@ config :git_hooks,
   ]
 
 # Configure Scheduler here
-config :mars_scheduler, Mars.Scheduler,
+config :mars, Mars.Scheduler,
   jobs: [
     # Every minute
     event_cleanup: [
       overlap: false,
-      schedule: "* * * * *",
+      schedule: "0 00 * * *",
       task: {
         Mars.EventCleanup,
         :start_cleanup,

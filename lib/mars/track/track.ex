@@ -43,6 +43,9 @@ defmodule Mars.Track do
     ])
   end
 
+  @doc """
+  Given a message_id, return all the lifecycle events associated
+  """
   def get_event_by_message_id(message_id) do
     Repo.get_by(Event, message_id: message_id)
   end
