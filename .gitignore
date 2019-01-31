@@ -12,3 +12,4 @@ erl_crash.dump
 /.elixir_ls/*
 *.pem
 .sobelow
+/priv/static/*

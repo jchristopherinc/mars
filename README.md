@@ -97,15 +97,15 @@ Sample `wrk` command
 **Sample result**
 
 ```
-wrk -t20 -c20 -d10s http://localhost:4000/api/create_event
+wrk -t4 -c100 -d10S --timeout 2000 http://localhost:4000/api/create_event
 Running 10s test @ http://localhost:4000/api/create_event
-  20 threads and 20 connections
+  4 threads and 100 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     4.35ms    8.09ms 186.29ms   89.78%
-    Req/Sec   550.54    202.59     1.17k    65.03%
-  109937 requests in 10.05s, 24.34MB read
-Requests/sec:  10935.14
-Transfer/sec:      2.42MB
+    Latency    12.15ms   16.27ms 201.60ms   92.02%
+    Req/Sec     2.82k     1.67k    7.12k    51.76%
+  111829 requests in 10.02s, 24.76MB read
+Requests/sec:  11158.97
+Transfer/sec:      2.47MB
 ```
 
 It's over **9000** 	`\( ﾟヮﾟ)/`
