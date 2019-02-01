@@ -13,3 +13,4 @@ erl_crash.dump
 *.pem
 .sobelow
 /priv/static/*
+/priv/cert/*.pem
