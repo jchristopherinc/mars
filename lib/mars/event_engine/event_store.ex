@@ -56,6 +56,9 @@ defmodule Mars.EventEngine.EventStore do
 
         # Broadcast it to Websockets
         send_web_sockets(key, event_map)
+
+        # Send event for Rule processing. 
+        # Create a genserver fleet (I'd like to call it that way :P) that consumes aggregated events and checks for matching rules.
       end)
     end)
 
