@@ -47,6 +47,11 @@ defmodule Mars.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:quantum, "~> 2.3"},
 
+      # grpc and protobuf
+      {:protobuf, "~> 0.5.3"},
+      {:google_protos, "~> 0.1"},
+      {:grpc, github: "tony612/grpc-elixir"},
+
       # -----dev dependencies below this-----
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
       {:git_hooks, "~> 0.2.0", only: :dev, runtime: false}

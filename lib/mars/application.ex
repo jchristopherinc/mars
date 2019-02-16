@@ -10,6 +10,8 @@ defmodule Mars.Application do
   @max_event_stores 40
 
   def start(_type, _args) do
+    import Supervisor.Spec
+    
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
@@ -18,7 +20,10 @@ defmodule Mars.Application do
       MarsWeb.Endpoint,
       # Starts a worker by calling: Mars.Worker.start_link(arg)
       # {Mars.Worker, arg}
-      {Mars.Scheduler, []}
+      {Mars.Scheduler, []},
+
+      # gRPC service
+      supervisor(GRPC.Server.Supervisor, [{MarsWeb.EventGrpcController, 4025}])
     ]
 
     # Starting links to our EventEngine GenStages

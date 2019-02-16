@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package MarsWeb.GrpcService;
+
+// gRPC service request and response
+service MarsGrpc {
+  rpc collectEvent (EventRequest) returns (EventResponse) {}
+}
+
+// fields to pass to event service
+message EventRequest {
+  string app_id = 1;
+  string message_id = 2;
+  string event = 3;
+  string created_at = 4;
+}
+
+// response for event request
+message EventResponse {
+  bool success = 1;
+}
