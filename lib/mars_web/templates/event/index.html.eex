@@ -1,6 +1,6 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    window.eventTimelineSocket(<%= @message_id %>);
+    window.eventTimelineSocket('<%= @message_id %>');
   });
 </script>
 <section class="row mb-40px">

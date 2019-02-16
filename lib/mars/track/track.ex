@@ -17,7 +17,7 @@ defmodule Mars.Track do
     query_upsert_event = """
       INSERT INTO 
       event(app_id, message_id, event, created_at, inserted_at, updated_at) 
-      VALUES ($1::integer, $2::integer, $3::JSONB, $4, $5, $6) 
+      VALUES ($1, $2, $3::JSONB, $4, $5, $6) 
       
       ON CONFLICT (app_id, message_id) 
       DO 
