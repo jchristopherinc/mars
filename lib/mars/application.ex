@@ -11,7 +11,7 @@ defmodule Mars.Application do
 
   def start(_type, _args) do
     import Supervisor.Spec
-    
+
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository

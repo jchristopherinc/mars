@@ -32,7 +32,7 @@ defmodule MarsWeb.GrpcService.MarsGrpc.Service do
   @moduledoc false
   use GRPC.Service, name: "MarsWeb.GrpcService.MarsGrpc"
 
-  rpc :collectEvent, MarsWeb.GrpcService.EventRequest, MarsWeb.GrpcService.EventResponse
+  rpc(:collectEvent, MarsWeb.GrpcService.EventRequest, MarsWeb.GrpcService.EventResponse)
 end
 
 defmodule MarsWeb.GrpcService.MarsGrpc.Stub do
