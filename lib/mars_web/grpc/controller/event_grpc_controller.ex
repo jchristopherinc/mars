@@ -7,15 +7,15 @@ defmodule MarsWeb.Grpc.EventGrpcController do
   @spec collect_event(MarsWeb.GrpcService.EventRequest.t(), GRPC.Server.Stream.t()) ::
           EventResponse.t()
   def collect_event(request, _stream) do
-
     # Build event
     event = %{
       app_id: request.app_id,
       message_id: request.message_id,
       event: request.event,
-      created_at: Timex.now() #TODO: Change it to request time. accept timestamp and use it as-is
+      # TODO: Change it to request time. accept timestamp and use it as-is
+      created_at: Timex.now()
     }
-    
+
     EventCollector.enqueue(event)
 
     EventResponse.new(success: true)
