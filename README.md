@@ -72,6 +72,12 @@ Expose HTTP End points `/api/create_event` to trigger events from external syste
 
 *TODO*: Add support for Message brokers.
 
+### gRPC Support
+
+Supports gRPC. Use the protobuf in [event.proto](https://github.com/jchristopherinc/mars/blob/master/lib/mars_web/proto/event.proto) to generate your own client and send request.
+
+*still in early stages. use with caution*
+
 ## For testing in dev environment
 
 https://localhost:4001/api/create_event - End point to generate random events for test
