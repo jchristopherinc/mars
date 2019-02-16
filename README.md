@@ -80,6 +80,52 @@ The gRPC server runs on port `4025`.
 
 For testing from dev machine, use [bloomrpc](https://github.com/uw-labs/bloomrpc) and load `event.proto` to fire the requests 🔥
 
+
+## Load testing through gRPC
+
+Used this client [ghz](https://ghz.sh)
+
+**Sample command**
+```
+ghz -insecure   -proto event.proto -n 10000  -call MarsWeb.GrpcService.MarsGrpc.collectEvent   -d '{ "app_id": "95625ac7-f249-49af-96a4-90352c72e2b8", "message_id": "aded42c1-e7b7-4d5c-8c4d-dc4a4c5f9382", "event": "Hello", "created_at": "Hello" }'   0.0.0.0:4025
+```
+
+**Sample result**
+
+```
+Summary:
+  Count:	100000
+  Total:	28.27 s
+  Slowest:	26.10 ms
+  Fastest:	0.42 ms
+  Average:	2.74 ms
+  Requests/sec:	3537.88
+
+Response time histogram:
+  0.425 [1]	|
+  2.992 [74427]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  5.560 [25105]	|∎∎∎∎∎∎∎∎∎∎∎∎∎
+  8.128 [316]	|
+  10.695 [78]	|
+  13.263 [37]	|
+  15.831 [16]	|
+  18.398 [7]	|
+  20.966 [7]	|
+  23.534 [3]	|
+  26.102 [3]	|
+
+Latency distribution:
+  10% in 2.09 ms
+  25% in 2.40 ms
+  50% in 2.68 ms
+  75% in 3.00 ms
+  90% in 3.35 ms
+  95% in 3.62 ms
+  99% in 4.60 ms
+Status code distribution:
+  [OK]   100000 responses
+```
+
 *still in early stages. use with caution*
 
 ## For testing in dev environment
