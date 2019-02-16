@@ -76,7 +76,9 @@ Expose HTTP End points `/api/create_event` to trigger events from external syste
 
 Supports gRPC. Use the protobuf in [event.proto](https://github.com/jchristopherinc/mars/blob/master/lib/mars_web/proto/event.proto) to generate your own client and send request.
 
-For testing from dev machine, use [bloomrpc](https://github.com/uw-labs/bloomrpc)
+The gRPC server runs on port `4025`. 
+
+For testing from dev machine, use [bloomrpc](https://github.com/uw-labs/bloomrpc) and load `event.proto` to fire the requests 🔥
 
 *still in early stages. use with caution*
 

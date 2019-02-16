@@ -1,4 +1,4 @@
-defmodule MarsWeb.EventGrpcController do
+defmodule MarsWeb.Grpc.EventGrpcController do
   use GRPC.Server, service: MarsWeb.GrpcService.MarsGrpc.Service
 
   alias MarsWeb.GrpcService.EventResponse

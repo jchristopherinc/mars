@@ -23,7 +23,7 @@ defmodule Mars.Application do
       {Mars.Scheduler, []},
 
       # gRPC service
-      supervisor(GRPC.Server.Supervisor, [{MarsWeb.EventGrpcController, 4025}])
+      supervisor(GRPC.Server.Supervisor, [{MarsWeb.Grpc.Endpoint, 4025}])
     ]
 
     # Starting links to our EventEngine GenStages
