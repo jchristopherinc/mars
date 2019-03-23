@@ -32,6 +32,8 @@
     <footer>
       <p class="copyright">
         <strong>M</strong>essage |> <strong>A</strong>cknowledgement |> <strong>R</strong>eliability tracing |> <strong>S</strong>ervice
+        /
+        <a href="https://github.com/jchristopherinc/mars" target="_blank"> Github </a>
       </p>
     </footer>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
