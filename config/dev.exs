@@ -78,4 +78,5 @@ config :mars, Mars.Repo,
   password: System.get_env("DEV_DB_PASSWORD"),
   database: System.get_env("DEV_DB_NAME"),
   hostname: System.get_env("DEV_DB_HOST"),
+  port: System.get_env("DEV_DB_PORT"),
   pool_size: 20
