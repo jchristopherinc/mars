@@ -1,21 +1,14 @@
-version: '2.3'
+version: '2.1'
 
 services:
   master:
     container_name: "${COMPOSE_PROJECT_NAME:-citus}_master"
-    image: citusdata/citus:8.1.1
-    ports:
-      - "6432:5432"
-    labels:
-      com.citusdata.role: Master
-    volumes:
-      - ./data/citus-master:/var/lib/postgresql/data
+    image: 'citusdata/citus:8.1.1'
+    ports: ["${MASTER_EXTERNAL_PORT:-6432}:5432"]
+    labels: ['com.citusdata.role=Master']
   worker:
-    image: citusdata/citus:8.1.1
-    labels:
-      com.citusdata.role: Worker
-    volumes:
-      - ./data/citus-worker:/var/lib/postgresql/data
+    image: 'citusdata/citus:8.1.1'
+    labels: ['com.citusdata.role=Worker']
     depends_on: { manager: { condition: service_healthy } }
   manager:
     container_name: "${COMPOSE_PROJECT_NAME:-citus}_manager"
