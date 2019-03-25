@@ -14,3 +14,4 @@ erl_crash.dump
 .sobelow
 /priv/static/*
 /priv/cert/*.pem
+/citus-docker/data

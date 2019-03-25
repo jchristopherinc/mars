@@ -6,6 +6,7 @@ defmodule Mars.Track.Event do
   Events Table schema
   """
 
+  @primary_key false
   schema "event" do
     field :app_id, :string
     field :created_at, :utc_datetime
